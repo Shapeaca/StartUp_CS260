@@ -10,12 +10,12 @@ The player will also occasionally run into a check point that will respawn them 
 ##### Player Controls:
 The player will have the ability to move left and right, jump, and also use special abilities based on what items they have.
 The player will also be able to attack
-
+##### Level based game
 The game will have many different levels, which will be connected by doors that the player can walk through.
-
+##### Items for the player
 If I have time, the game will have different items that the player can use, with different special powers. 
 This is the twist of the game. For example, the items could manipulate gravity, send out a powerful attack, or allow the user to double jump.
-
+##### Game Score
 The game will have a timer and a death counter, so that players, if they want, can compete for the best times.
 This score will then be displayed for everyone on the leaderboard
 
