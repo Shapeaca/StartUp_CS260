@@ -43,9 +43,9 @@ React will help improve the game/website's functionality and use-ability.
 React will also help reduce the size of the website
 
 ## Sketches
-![images/sketch1.jpg](images\sketch1.jpg)
-![images/sketch7.jpg](images\sketch7.jpg)
-![images/sketch3.jpg](images\sketch3.jpg)
-![images/sketch6.jpg](images\sketch6.jpg)
+![images/sketch1.jpg](images/sketch1.jpg)
+![images/sketch7.jpg](images/sketch7.jpg)
+![images/sketch3.jpg](images/sketch3.jpg)
+![images/sketch6.jpg](images/sketch6.jpg)
 
 
