@@ -14,7 +14,9 @@ The player will have the ability to press or not press. When they are pressing, 
 ##### Infinite game:
 The game will just be a game like flappy birds, and the obstacles the user will face will be randomly generated
 ##### Game Score
-The game will have a timer and an attempt counter. As the player 
+The game will have a timer and an attempt counter. 
+As the player plays an attempt, the timer will count up for time survived. 
+The number of play attempts will also be recorded.
 ##### Global Leaderboard
 The website will have a global leaderboard that will show every player who has played the game. 
 Attached to each player on the leaderboard will be the number of Attempts, and their best attempt (By distance or time)
@@ -43,10 +45,10 @@ React will help improve the game/website's functionality and use-ability.
 React will also help reduce the size of the website
 
 ## Sketches
-![images/sketch1.jpg](startup-html/images/sketch1.jpg)
-![images/sketch7.jpg](startup-html/images/sketch7.jpg)
-![images/sketch3.jpg](startup-html/images/sketch3.jpg)
-![images/sketch6.jpg](startup-html/images/sketch6.jpg)
+![read_me_images/sketch1.jpg](read_me_images/sketch1.jpg)
+![read_me_images/sketch7.jpg](read_me_images/sketch7.jpg)
+![read_me_images/sketch3.jpg](read_me_images/sketch3.jpg)
+![read_me_images/sketch6.jpg](read_me_images/sketch6.jpg)
 
 # Project Deliverables
 ## HTML Deliverable
