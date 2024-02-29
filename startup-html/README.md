@@ -48,5 +48,8 @@ React will also help reduce the size of the website
 ![images/sketch3.jpg](images/sketch3.jpg)
 ![images/sketch6.jpg](images/sketch6.jpg)
 
-# HTML Deliverable
-##
+# Project Deliverables
+## HTML Deliverable
+I built out the structure of the website by doing:
+* I built three web pages for each aspect of the game, with hyperlinks between all the pages
+* 
