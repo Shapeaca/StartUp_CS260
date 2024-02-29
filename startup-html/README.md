@@ -51,5 +51,13 @@ React will also help reduce the size of the website
 # Project Deliverables
 ## HTML Deliverable
 I built out the structure of the website by doing:
-* I built three web pages for each aspect of the game, with hyperlinks between all the pages
-* 
+* I built three web pages for each aspect of the game, with hyperlinks between all the pages.
+* I added my github repository link at the bottom of each of the 3 pages.
+* On every page, I added a Title with the function of that page
+* On every page, I organized the content of the page with Header, Main, and Footer HTML elements
+* The login page, or index.html, is where the user will login. I added a username and password box. The user will need to login before they can play.
+* I built a leaderboard that will be updated with user data from the database. It will show each user's username, longest time, and number of attempts.
+* At the bottom of the leaderboard page I added a time and date, that will display the last time the leaderboard has been updated. This will be updated through websockets, everytime data is sent by a websocket connection.
+* On play.html I made a div element that will contain the future game. I also uploaded a temporary image to show kinda what the game will be like. 
+
+
