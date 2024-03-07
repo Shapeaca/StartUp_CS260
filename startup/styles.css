@@ -37,7 +37,10 @@ main {
     display: flex;
     height: 100%;
     flex-direction: column;
+    background-image: linear-gradient(hsl(240deg 100% 18%), hsl(240deg 100% 50%));
 }
+
+
 
 footer {
     display: flex;
