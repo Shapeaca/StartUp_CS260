@@ -11,16 +11,20 @@ body {
 }
 
 header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: left;
     height: 10vh;
-    border-bottom: 2px black;
+    border-bottom: solid 3px black;
     background: darkslategray;
 }
 
-nav, a {
+p, a {
+    padding: 0 50px;
     color: yellow;
-    /*-webkit-text-stroke: 1px black;*/
     font-size: 30px;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .navSelect {
