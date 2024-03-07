@@ -1,3 +1,11 @@
 * {
-    color: lightblue;
+    color: greenyellow;
+    -webkit-text-stroke: 1px black;
+}
+
+nav {
+    color: yellow;
+    -webkit-text-stroke: 1px black;
+    font-size: 30px;
+    text-decoration: underline;
 }
