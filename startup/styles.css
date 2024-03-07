@@ -10,7 +10,7 @@ body {
     margin: 0;
 }
 
-header {
+nav {
     display: flex;
     align-items: center;
     flex-direction: row;
