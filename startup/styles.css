@@ -36,11 +36,10 @@ nav p, nav a {
 main {
     display: flex;
     height: 100%;
+    /*width: 100%;*/
     flex-direction: column;
     background-image: linear-gradient(hsl(0deg 100% 18%), hsl(0deg 100% 50%));
 }
-
-
 
 footer {
     display: flex;
@@ -58,12 +57,19 @@ a {
 }
 
 /*Leaderboard CSS*/
+#tableDiv {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+}
 
 table {
     background: lightcoral;
     border: solid black 2px;
     border-collapse: collapse;
-    margin: 0 10vw;
+    margin: 5vh 10vw;
     width: 80vw;
 }
 
@@ -78,6 +84,15 @@ th, td {
 }
 
 th {
+    font-size: 25px;
+}
+
+.websocketText {
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: right;
+    margin: 10px 20px;
 
 }
 

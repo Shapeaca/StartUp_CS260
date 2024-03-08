@@ -184,3 +184,10 @@ Personal Computers and Server Ports:
 
 DNS Record Types
 
+
+## Class 3/8/2024 notes:
+    Daemons:
+    * They are programs that run and do stuff when you are not online. 
+    * Necessary for always running the website
+    * On our web server, we use pm2
+    * Command for seeing processes running on our server: pm2 ls
