@@ -1,6 +1,7 @@
 * {
     font-family: Monaco, "Lucida Console", monospace;
     color: greenyellow;
+    font-size: 20px;
     -webkit-text-stroke: 1px black;
 }
 
@@ -39,6 +40,7 @@ main {
     /*width: 100%;*/
     flex-direction: column;
     background-image: linear-gradient(hsl(0deg 100% 18%), hsl(0deg 100% 50%));
+    align-items: center;
 }
 
 footer {
@@ -93,7 +95,6 @@ th {
     align-items: center;
     justify-content: right;
     margin: 10px 20px;
-
 }
 
 /*Play Box CSS*/
@@ -107,4 +108,9 @@ th {
     border: solid 2px gray;
     width: 640px;
     height: 480px;
+}
+
+/*Login CSS*/
+h1 {
+    font-size: 40px;
 }
