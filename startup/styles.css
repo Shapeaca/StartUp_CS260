@@ -82,7 +82,14 @@ th {
 }
 
 /*Play Box CSS*/
+#playBoxBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 #playBox {
     border: solid 2px gray;
+    width: 640px;
+    height: 480px;
 }
