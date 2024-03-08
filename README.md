@@ -63,4 +63,15 @@ I built out the structure of the website by doing:
 * At the bottom of the leaderboard page I added a time and date, that will display the last time the leaderboard has been updated. This will be updated through websockets, everytime data is sent by a websocket connection.
 * On play.html I made a div element that will contain the future game. I also uploaded a temporary image to show kinda what the game will be like. 
 
-
+## CSS Deliverable
+I decorated and finalized the structure of the website in CSS by doing:
+* I divided each html page by header, main, and footer, by using css to define a clear size, background, and border for each section
+* I chose a special font and outline for all text on the webpage, giving a pixel / robotic appearance
+* I made a changing background for every webpage (using a little javascript), that cycles through the rainbow to give a Geometry Dash vibe
+* I made every division/element center in its space, and resize if possible, when the dimensions of the webpage are changed
+* I made the nav/header hyperlinks color based on which page you are on
+* I centered the gitHub link in the footer in the center of the page 
+* For the login page, I centered everything, so it looks like a proper login page
+* For the leaderboard page, I divided up the space between the leaderboard and the websocket text at the bottom
+* For the Table in the Leaderboard, I divided up and edited the table to make it easier to read
+* For the play page, I added an outline which signifies the play box, and I added an image which represents how I will modify position and rotation of images using javascript to make the game functional
