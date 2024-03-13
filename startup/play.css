@@ -1,5 +1,13 @@
 /*game Box Dimensions: width: 640px   height: 480px  */
 
+/*#backgroundImg {
+    mix-blend-mode: multiply;
+    height: 50%;
+}*/
+
+/*main {
+    background-image: mix-blend-mode(), url("images/Background-GeometricMonotone.webp");
+}*/
 
 #imgShip {
     height: 60px;
@@ -7,3 +15,11 @@
     top: 210px;
     left: 50px;
 }
+
+#tempBlock {
+    height: 60px;
+    position: absolute;
+    top: 0px;
+    left: 400px;
+}
+
