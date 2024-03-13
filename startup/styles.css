@@ -105,6 +105,7 @@ th {
 }
 
 #playBox {
+    position: relative;
     border: solid 2px gray;
     width: 640px;
     height: 480px;
