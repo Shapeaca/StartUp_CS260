@@ -16,10 +16,23 @@
     left: 50px;
 }
 
-#tempBlock {
+.block {
     height: 60px;
     position: absolute;
+}
+
+#block1 {
     top: 0px;
+    left: 400px;
+}
+
+#block2 {
+    top: 60px;
+    left: 400px;
+}
+
+#block3 {
+    top: 120px;
     left: 400px;
 }
 
