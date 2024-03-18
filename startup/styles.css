@@ -58,6 +58,10 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    color: royalblue;
+}
+
 /*Leaderboard CSS*/
 #tableDiv {
     display: flex;
@@ -114,4 +118,15 @@ th {
 /*Login CSS*/
 h1 {
     font-size: 40px;
+}
+
+button {
+    padding: 10px 40px;
+    border: black solid 1px;
+    border-radius: 8px;
+    background-color: lightcoral;
+}
+
+button:hover {
+    background-color: crimson;
 }
