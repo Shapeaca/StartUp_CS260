@@ -9,7 +9,7 @@
     background-image: mix-blend-mode(), url("images/Background-GeometricMonotone.webp");
 }*/
 
-#imgShip {
+#playerShip {
     height: 60px;
     position: absolute;
     top: 210px;
