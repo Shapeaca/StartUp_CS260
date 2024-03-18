@@ -19,7 +19,7 @@ nav {
     justify-content: left;
     height: 55px;
     border-bottom: solid 3px black;
-    background: hsl(0deg 100% 28%);
+    background: hsl(0deg 100% 23%);
 }
 
 nav p, nav a {
@@ -39,7 +39,7 @@ main {
     height: 100%;
     /*width: 100%;*/
     flex-direction: column;
-    background-image: linear-gradient(hsl(0deg 100% 18%), hsl(0deg 100% 50%));
+    background-image: linear-gradient(hsl(0deg 100% 18%), hsl(0deg 100% 40%));
     align-items: center;
 }
 
@@ -47,7 +47,7 @@ footer {
     display: flex;
     height: 36px;
     font-size: 20px;
-    background: hsl(0deg 100% 28%);
+    background: hsl(0deg 100% 23%);
     align-items: center;
     justify-content: center;
     border-top: solid 3px black;
@@ -129,4 +129,9 @@ button {
 
 button:hover {
     background-color: crimson;
+}
+
+input {
+    color: black;
+    -webkit-text-stroke: unset;
 }
