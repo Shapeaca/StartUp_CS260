@@ -191,3 +191,49 @@ DNS Record Types
     * Necessary for always running the website
     * On our web server, we use pm2
     * Command for seeing processes running on our server: pm2 ls
+
+
+## Class 3/18/2024 notes: 
+    Storing Passwords
+    * Do NOT store plain text
+    * Use a good Hash algorithm - So you never know user's passwords
+    * * Needs a Consistent algorithm
+    * * Needs a very low chance of repeat values
+    * * Add Salt
+    
+    Hash and Salt
+    - Uses a Hash algorithm
+    - Uses a unique Salt for each user
+    - Append Password to Salt
+    - Then Hash the Salt and Password
+
+    Bcrypt
+    - A security Program that automatically hashes and salts passwords
+    - Uses a special hash function???
+    
+    Endpoints need passwords
+    - Authenticate ONCE using Bcrypt
+    - Use AuthTokens / uuid
+    - USE uuid package
+    - Token's don't last forever, so that they are NOT more powerful than passwords
+    - Many companies / websites want to get rid of their token as soon as possible
+    * * Examples: Banks, LDS Tools for Leaders 
+
+    Cookies
+    - Idea: I'm leaving crumbs behind so that the browser knows what happened on previous sessions
+    - Can do many things
+    - - Can prove if a user was authenticated on previous sessions
+    - - If you want to save a user's language preference
+    - - BUT, there is a dark side
+    - Dark Side of cookies: It leaves a unique tracker for programs to track individual users
+    - - Allows websites / ads to track where you have been
+
+Cookies:
+Set-Cookie: session=x83yzi; Secure; HttpOnly; SameSite=Strict
+        ___           (HTTPS only)  (!Javascript)    (Only Given back to Origin)
+
+HttpOnly; - Sets so that Javascript can't access it??? Only the browser
+
+npm init -y
+npm install express cookie-parser uuid
+- Install all 3 of these packages - (express) (cookie-parser) (uuid)
