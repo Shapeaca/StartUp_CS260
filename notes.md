@@ -237,3 +237,17 @@ HttpOnly; - Sets so that Javascript can't access it??? Only the browser
 npm init -y
 npm install express cookie-parser uuid
 - Install all 3 of these packages - (express) (cookie-parser) (uuid)
+
+## Class 3/20/24
+    Testing Apps
+    - What we use (front-end) - Playwright
+    - What we use (back-end) - Jest
+
+    Don't use flaky testing apps
+    - You don't want the tests to fail because of some random timing issue
+
+    Jest is magic
+    - It scans your Javascript automatically
+    - - Don't need to import
+    - It injects itself into the javascript 
+    - - AS LONG AS you have a function called test();
