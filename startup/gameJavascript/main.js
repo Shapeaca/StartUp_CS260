@@ -1,17 +1,23 @@
-const shipIDStr = "playerShip";
-let curRotation = 0;
-const rotateAmount = 0.25;
-let rotateDirection = 1;
+// const shipIDStr = "playerShip";
+// let curRotation = 0;
+// const rotateAmount = 0.25;
+// let rotateDirection = 1;
+//
+// let shipCurHeight = 0;
+// const horizontalVelocity = 1;
 
-let shipCurHeight = 0;
-const horizontalVelocity = 1;
+let blockArray = [];
 
 function initializeGame() {
     createShip();
-    createWall(1, 0);
-    // createWall(2, 60);
-    // createWall(3, 120);
-    // createWall(4, 180);
+    createWall(1, 400, 0);
+    createWall(2, 400, 60);
+    createWall(3, 400, 120);
+    createWall(4, 500, 180);
+
+    blockArray.forEach(block => {
+        console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
+    });
 
 }
 
@@ -83,15 +89,18 @@ function createShip() {
     document.getElementById("playBox").appendChild(shipElement);
 }
 
-function createWall(blockNum, yPos) {
+function createWall(blockNum, xPos, yPos) {
     let blockElement = document.createElement('img');
     blockElement.src = `images/RegularBlock01.webp`;
     blockElement.setAttribute("class", "block")
     blockElement.setAttribute("id", `block${blockNum}`);
     document.getElementById("playBox").appendChild(blockElement);
 
-
-    //todo add Block to blockArray
+    //add to blockArray
+    let block = {blockID:`block${blockNum}`, xPos:`${xPos}`, yPos:`${yPos}`};
+    blockArray.push(block);
+    //Add CSS to position
     document.getElementById(`block${blockNum}`).style.top = `${yPos}px`;
+    document.getElementById(`block${blockNum}`).style.left = `${xPos}px`;
 }
 
