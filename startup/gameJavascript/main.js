@@ -11,9 +11,9 @@ let blockArray = [];
 function initializeGame() {
     createShip();
     createWall(1, 400, 0);
-    createWall(2, 400, 60);
-    createWall(3, 400, 120);
-    createWall(4, 500, 180);
+    // createWall(2, 400, 60);
+    // createWall(3, 400, 120);
+    // createWall(4, 500, 180);
 
     blockArray.forEach(block => {
         console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
@@ -25,32 +25,35 @@ initializeGame();
 
 //Main Loop - Runs 30 times per second
 function main() {
-    curRotation += rotateAmount * rotateDirection;
-    if(curRotation >= 60) {
-        rotateDirection = -1;
-    }
-    if(curRotation <= -60) {
-        rotateDirection = 1;
-    }
-    document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
 
-    let direction = 1;
-    if(curRotation >= 180) {
-        direction = -1;
-    } else {
-        direction = 1;
-    }
-    let verticalVelocity = horizontalVelocity * Math.tan(toRadians(curRotation)) * direction;
-    console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
+    moveWalls(-1);
 
-    // shipCurHeight += verticalVelocity;
-    document.getElementById(shipIDStr).style.top = `${shipCurHeight}px`;
-    if(shipCurHeight >= 420) {
-        shipCurHeight = 0;
-    }
+    // curRotation += rotateAmount * rotateDirection;
+    // if(curRotation >= 60) {
+    //     rotateDirection = -1;
+    // }
+    // if(curRotation <= -60) {
+    //     rotateDirection = 1;
+    // }
+    // document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
+    //
+    // let direction = 1;
+    // if(curRotation >= 180) {
+    //     direction = -1;
+    // } else {
+    //     direction = 1;
+    // }
+    // let verticalVelocity = horizontalVelocity * Math.tan(toRadians(curRotation)) * direction;
+    // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
+    //
+    // // shipCurHeight += verticalVelocity;
+    // document.getElementById(shipIDStr).style.top = `${shipCurHeight}px`;
+    // if(shipCurHeight >= 420) {
+    //     shipCurHeight = 0;
+    // }
 
 }
-// setInterval(main, 33.333);
+setInterval(main, 33.333);
 
 
 // Can put functions below
@@ -76,8 +79,13 @@ function detectEdges() {
 
 
 //Walls
-function moveWalls() {
-
+function moveWalls(changeInXPos) {
+    console.log("Moving Walls:");
+    blockArray.forEach(block => {
+        block.xPos = Number(block.xPos) + Number(changeInXPos);
+        console.log(block.xPos);
+        document.getElementById(block.blockID).style.left = `${block.xPos}px`;
+    })
 }
 
 //add array of wall object
