@@ -10,10 +10,12 @@ let blockArray = [];
 
 function initializeGame() {
     createShip();
-    createWall(1, 400, 0);
-    // createWall(2, 400, 60);
-    // createWall(3, 400, 120);
-    // createWall(4, 500, 180);
+    createWall(1, 500, 0);
+    createWall(2, 500, 60);
+    createWall(3, 500, 120);
+    createWall(4, 500, 180);
+
+    // removeBlock(blockArray[0].blockID);
 
     blockArray.forEach(block => {
         console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
@@ -98,6 +100,7 @@ function createShip() {
 }
 
 function createWall(blockNum, xPos, yPos) {
+    //create Img
     let blockElement = document.createElement('img');
     blockElement.src = `images/RegularBlock01.webp`;
     blockElement.setAttribute("class", "block")
@@ -112,3 +115,7 @@ function createWall(blockNum, xPos, yPos) {
     document.getElementById(`block${blockNum}`).style.left = `${xPos}px`;
 }
 
+function removeBlock(rmvBlockID) { //fixme this code doesn't work
+    blockArray = blockArray.filter(block => block.blockID != rmvBlockID);
+    document.getElementById().remove(rmvBlockID);
+}
