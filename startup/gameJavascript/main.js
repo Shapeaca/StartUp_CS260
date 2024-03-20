@@ -41,3 +41,28 @@ setInterval(main, 33.333);
 function toRadians (angle) {
     return angle * (Math.PI / 180);
 }
+
+//Ship Movement
+function moveShip() {
+
+}
+
+function rotateShip() {
+
+}
+
+function detectEdges() {
+
+}
+
+
+//Walls
+function moveWalls() {
+
+}
+
+//add array of wall object
+function createWall() {
+
+}
+
