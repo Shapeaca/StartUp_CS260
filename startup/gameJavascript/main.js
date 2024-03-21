@@ -18,7 +18,7 @@ function initializeGame() {
     // removeBlock(blockArray[0].blockID);
 
     blockArray.forEach(block => {
-        console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
+        // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
 
 }
@@ -82,10 +82,10 @@ function detectEdges() {
 
 //Walls
 function moveWalls(changeInXPos) {
-    console.log("Moving Walls:");
+    // console.log("Moving Walls:");
     blockArray.forEach(block => {
         block.xPos = Number(block.xPos) + Number(changeInXPos);
-        console.log(block.xPos);
+        // console.log(block.xPos);
         document.getElementById(block.blockID).style.left = `${block.xPos}px`;
     })
 }
@@ -119,3 +119,21 @@ function removeBlock(rmvBlockID) { //fixme this code doesn't work
     blockArray = blockArray.filter(block => block.blockID != rmvBlockID);
     document.getElementById().remove(rmvBlockID);
 }
+
+
+//Event Listeners for Spacebar
+let spacePressed = false;
+
+document.addEventListener("keydown", event => {
+    if(event.key === " ") {
+        spacePressed = true;
+        console.log("Space Pressed");
+    }
+});
+
+document.addEventListener("keyup", event => {
+    if(event.key === " ") {
+        spacePressed = false;
+        console.log("Space Released");
+    }
+})
