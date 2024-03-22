@@ -1,6 +1,5 @@
 GitHub 
-assignment - This assignment helped me learn about merging, and how to better do it. That's pretty much all I learned, because I already knew a lot 
-
+assignment - This assignment helped me learn about merging, and how to better do it. That's pretty much all I learned, because I already knew a lot
 
 # Notes
 

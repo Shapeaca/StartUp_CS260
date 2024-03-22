@@ -75,3 +75,4 @@ I decorated and finalized the structure of the website in CSS by doing:
 * For the leaderboard page, I divided up the space between the leaderboard and the websocket text at the bottom
 * For the Table in the Leaderboard, I divided up and edited the table to make it easier to read
 * For the play page, I added an outline which signifies the play box, and I added an image which represents how I will modify position and rotation of images using javascript to make the game functional
+

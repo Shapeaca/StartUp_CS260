@@ -1,12 +1,14 @@
-// const shipIDStr = "playerShip";
-// let curRotation = 0;
-// const rotateAmount = 0.25;
-// let rotateDirection = 1;
 //
 // let shipCurHeight = 0;
 // const horizontalVelocity = 1;
 
+
+let curRotation = 0;
+const rotateAmount = 2;
+const shipIDStr = "playerShip";
+
 let blockArray = [];
+let spacePressed = false;
 
 function initializeGame() {
     createShip();
@@ -16,7 +18,6 @@ function initializeGame() {
     createWall(4, 500, 180);
 
     // removeBlock(blockArray[0].blockID);
-
     blockArray.forEach(block => {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
@@ -29,6 +30,7 @@ initializeGame();
 function main() {
 
     moveWalls(-1);
+    rotateShip();
 
     // curRotation += rotateAmount * rotateDirection;
     // if(curRotation >= 60) {
@@ -67,7 +69,15 @@ function toRadians (angle) {
 //Ship Movement
 
 function rotateShip() {
-
+    let intReverser;
+    if(spacePressed) {
+        intReverser = -1;
+    } else {
+        intReverser = 1;
+    }
+    curRotation = curRotation + (intReverser * rotateAmount);
+    console.log(curRotation);
+    document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
 }
 
 function moveShip() {
@@ -122,18 +132,16 @@ function removeBlock(rmvBlockID) { //fixme this code doesn't work
 
 
 //Event Listeners for Spacebar
-let spacePressed = false;
-
 document.addEventListener("keydown", event => {
     if(event.key === " ") {
         spacePressed = true;
-        console.log("Space Pressed");
+        // console.log("Space Pressed");
     }
 });
 
 document.addEventListener("keyup", event => {
     if(event.key === " ") {
         spacePressed = false;
-        console.log("Space Released");
+        // console.log("Space Released");
     }
 })
