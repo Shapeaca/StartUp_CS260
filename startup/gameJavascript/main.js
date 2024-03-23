@@ -32,21 +32,7 @@ function main() {
     moveWalls(-1);
     rotateShip();
 
-    // curRotation += rotateAmount * rotateDirection;
-    // if(curRotation >= 60) {
-    //     rotateDirection = -1;
-    // }
-    // if(curRotation <= -60) {
-    //     rotateDirection = 1;
-    // }
-    // document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
-    //
-    // let direction = 1;
-    // if(curRotation >= 180) {
-    //     direction = -1;
-    // } else {
-    //     direction = 1;
-    // }
+
     // let verticalVelocity = horizontalVelocity * Math.tan(toRadians(curRotation)) * direction;
     // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
     //
@@ -105,7 +91,7 @@ function moveWalls(changeInXPos) {
 function createShip() {
     let shipElement = document.createElement('img');
     shipElement.src = `images/Ship014.webp`;
-    shipElement.setAttribute("id", "playerShip");
+    shipElement.setAttribute("id", shipIDStr);
     document.getElementById("playBox").appendChild(shipElement);
 }
 
