@@ -4,8 +4,17 @@
 
 
 let curRotation = 0;
+let rotateVelocity = 0;
+const rotateAcceleration = 0.1;
 const rotateAmount = 2;
 const shipIDStr = "playerShip";
+
+//Geometry Dash Ship Movement Notes
+/*
+    * There is a maximum angle - 50 degrees?
+    * High angular acceleration
+    * low maximum velocity
+ */
 
 let blockArray = [];
 let spacePressed = false;
@@ -44,6 +53,7 @@ function main() {
 
 }
 setInterval(main, 33.333);
+//todo make up for how long it takes for Main to process, and subtract that from the time of SetInterval()
 
 
 // Can put functions below
@@ -61,8 +71,9 @@ function rotateShip() {
     } else {
         intReverser = 1;
     }
-    curRotation = curRotation + (intReverser * rotateAmount);
-    console.log(curRotation);
+    rotateVelocity = rotateVelocity + (intReverser * rotateAcceleration)
+    curRotation = curRotation + rotateVelocity;
+    console.log(rotateVelocity);
     document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
 }
 

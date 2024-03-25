@@ -250,3 +250,10 @@ npm install express cookie-parser uuid
     - - Don't need to import
     - It injects itself into the javascript 
     - - AS LONG AS you have a function called test();
+
+## Class 3/25/24
+    Security and common mistakes
+
+    LOG YOUR DATA - Do it correctly
+    - Write logs for everything (every request) that happens
+    - Make your logs immutable (unchangable)
