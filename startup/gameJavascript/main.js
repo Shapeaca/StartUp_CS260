@@ -1,8 +1,8 @@
 //
-// let shipCurHeight = 0;
-// const horizontalVelocity = 1;
+let shipCurHeight = 0;
 
 
+const moveVelocity = 10;
 let curRotation = 0;
 let rotateVelocity = 0;
 const rotateAcceleration = 0.8;
@@ -28,7 +28,6 @@ function initializeGame() {
     createWall(3, 500, 120);
     createWall(4, 500, 180);
 
-    // removeBlock(blockArray[0].blockID);
     blockArray.forEach(block => {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
@@ -40,11 +39,12 @@ initializeGame();
 //Main Loop - Runs 30 times per second
 function main() {
 
-    moveWalls(-1);
+    moveWalls(-moveVelocity);
     rotateShip();
+    // moveShip();
+    // removeBlock(blockArray[0].blockID);
 
-
-    // let verticalVelocity = horizontalVelocity * Math.tan(toRadians(curRotation)) * direction;
+    // let verticalVelocity = moveVelocity * Math.tan(toRadians(curRotation)) * direction;
     // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
     //
     // // shipCurHeight += verticalVelocity;
@@ -93,10 +93,18 @@ function rotateShip() {
 
     //set rotation
     document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
+    moveShip();
 }
 
 function moveShip() {
+    let verticalVelocity = moveVelocity * Math.sin(toRadians(curRotation));
+    // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
 
+    shipCurHeight += verticalVelocity;
+    document.getElementById(shipIDStr).style.top = `${shipCurHeight}px`;
+    // if(shipCurHeight >= 420) {
+    //     shipCurHeight = 0;
+    // }
 }
 
 function detectEdges() {
@@ -142,7 +150,7 @@ function createWall(blockNum, xPos, yPos) {
 
 function removeBlock(rmvBlockID) { //fixme this code doesn't work
     blockArray = blockArray.filter(block => block.blockID != rmvBlockID);
-    document.getElementById().remove(rmvBlockID);
+    document.getElementById(rmvBlockID).remove();
 }
 
 
