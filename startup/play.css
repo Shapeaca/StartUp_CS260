@@ -5,9 +5,16 @@
     height: 50%;
 }*/
 
-/*main {
-    background-image: mix-blend-mode(), url("images/Background-GeometricMonotone.webp");
-}*/
+main {
+    /*background-image: !*mix-blend-mode(),*! url("images/Background-GeometricMonotone.webp");*/
+    /*z-index: 0;*/
+}
+
+#playBox {
+    /*z-index: 3;*/
+    overflow: hidden; /* hides the content*/
+    /*overflow: clip; !* removes the content*!*/
+}
 
 #playerShip {
     height: 60px;
@@ -18,6 +25,7 @@
     /*left: -55px;*/
 
     left: 50px;
+    /*z-index: 2;*/
     /*transform: rotate(10deg);*/
 }
 
@@ -25,6 +33,7 @@
     /*left: 400px;*/
     height: 60px;
     position: absolute;
+    /*z-index: 1;*/
 }
 
 /*
