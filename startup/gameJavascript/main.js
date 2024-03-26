@@ -5,8 +5,10 @@
 
 let curRotation = 0;
 let rotateVelocity = 0;
-const rotateAcceleration = 0.1;
-const rotateAmount = 2;
+const rotateAcceleration = 0.8;
+const maximumAngle = 60; //degrees
+const maximumVelocity = 5;
+
 const shipIDStr = "playerShip";
 
 //Geometry Dash Ship Movement Notes
@@ -65,15 +67,31 @@ function toRadians (angle) {
 //Ship Movement
 
 function rotateShip() {
+    //define acceleration direction
     let intReverser;
     if(spacePressed) {
         intReverser = -1;
     } else {
         intReverser = 1;
     }
-    rotateVelocity = rotateVelocity + (intReverser * rotateAcceleration)
+
+    //define velocity
+    rotateVelocity = rotateVelocity + (intReverser * rotateAcceleration);
+    if (rotateVelocity < -maximumVelocity) {
+        rotateVelocity = -maximumVelocity;
+    } else if (rotateVelocity > maximumVelocity) {
+        rotateVelocity = maximumVelocity;
+    }
+
+    //define rotation
     curRotation = curRotation + rotateVelocity;
-    console.log(rotateVelocity);
+    if (curRotation < -maximumAngle) {
+        curRotation = -maximumAngle;
+    } else if (curRotation > maximumAngle) {
+        curRotation = maximumAngle;
+    }
+
+    //set rotation
     document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
 }
 
