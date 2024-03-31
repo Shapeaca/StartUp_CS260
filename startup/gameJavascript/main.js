@@ -2,13 +2,14 @@
 let shipCurHeight = 0;
 
 
-const moveVelocity = 15;
+const moveVelocity = 10;
 let curRotation = 0;
 let rotateVelocity = 0;
 const rotateAcceleration = 0.7;
 const rotateAccelerationSpacePressedMultiplier = 1.8;
 const maximumAngle = 50; //degrees
 const maximumVelocity = 5;
+//fixme maximum velocity is a bandaid over what should reset your velocity to a reasonable amount every time you change dirrections?
 
 const shipIDStr = "playerShip";
 
@@ -94,6 +95,7 @@ function rotateShip() {
 }
 
 function moveShip() {
+    //todo should I change sin to tan???
     let verticalVelocity = moveVelocity * Math.sin(toRadians(curRotation));
     // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
 

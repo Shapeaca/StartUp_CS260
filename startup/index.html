@@ -10,20 +10,26 @@
 <!--
 Todo list:
     1) Deploy Simon.js
-    8) recolor all text so it is easier to read
+    2) Make it so that buttons do stuff?
+        - Question how do I check the input boxes, and read them into javascript???
+todo 8) recolor all text so it is easier to read
     9) Make the database list like the top 10 results, as well as the current User's rating and their rank
 
 todo list js:
     1) Make a very basic game framework that is capable of:
         * Removing objects
+        * Game End
+        * Score
+        * randomization of preset obstacles:
+           * I create different placements/functions that create a wall of blocks, and then I randomize which one will be selected
         * Use of Promise - to prevent browser lock when I'm playing the game
-        * editing the attributes of objects
         * detecting collisions of objects!!! (I can soo do this! I did this in 6th grade!!!)
-    2) Make a signup page with buttons and stuff
-    3) Make javascript files for saving data and calling endpoints.
-    4) Create a account tab on the upper-right of each screen that shows when a user is logged in
+    2) Make javascript files for saving data and calling endpoints.
+    3) Create a account tab on the upper-right of each screen that shows when a user is logged in
         - prevent the game from being played (and maybe the table from being loaded) until a user is logged in
-    4) finish javascript homeworks
+        - remove index.html "your username is: null"
+    4) finish javascript homework
+    5) Get play link on all 3 other pages to have an event listener that brings you to a different play page based on if you are logged in or not
 -->
 
 <Header>
@@ -37,7 +43,7 @@ todo list js:
 <main>
     <h1>Welcome to Ship Game</h1>
 
-    <p>Please insert your credentials and login to play: </p>
+    <p>Please insert your credentials to login and play: </p>
     <ul>
         <li>
             <label for="username">Username: </label>
@@ -49,7 +55,7 @@ todo list js:
         </li>
     </ul>
 
-    <button>Login</button>
+    <button id="loginButton">Login</button>
 
     <p>
         Don't have an account? Click <a href="signup.html" id="signupHtmlLink">Here</a> to sign up!
@@ -65,6 +71,7 @@ todo list js:
 </footer>
 
 <script src="background.js"></script>
+<script src="serverJavascript/loginButton.js"></script>
 
 </body>
 </html>

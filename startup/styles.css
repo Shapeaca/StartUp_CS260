@@ -43,6 +43,10 @@ main {
     align-items: center;
 }
 
+li {
+    padding: 3px;
+}
+
 footer {
     display: flex;
     height: 36px;
