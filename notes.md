@@ -257,3 +257,57 @@ npm install express cookie-parser uuid
     LOG YOUR DATA - Do it correctly
     - Write logs for everything (every request) that happens
     - Make your logs immutable (unchangable)
+
+## Class 3/27/24
+Juice Shop
+    - A security demonstration application 
+        - There are many security vulnerabilities designed to help computer scientists be aware of what NOT to do
+    - First thing is to find the score board
+        - Look at the source code
+    - This is a great way to learn about or practice security vulnerabilities
+    - Example: Log into an account - see what vul
+    - - There are many
+
+    Notes 
+    - All source code on front end applications is public
+    - Security Questions are a bad idea
+    - - You can get through security walls JUST by knowing something about the person
+    - Sanitize input in search bars, etc
+    - Don't increment data 
+    - THINK LIKE A HACKER 
+    - - so that you can DEFEND against hackers
+    - - There are so many DOs and DONTs for developers and security
+
+## Class notes 3/29/24
+React
+    - Create by Jordan Walke
+    - A web framework
+    - Combines HTML and Javascript
+    - Can use functions (example, ReactDOM.) to add pure HTML into Javascript
+    * REACT is really Security minded - (It automatically sanitizes input)
+
+JSX
+    - Combines Javascript and HTML
+    - Since HTML and Javascript go hand in hand, you put in one file
+    - JSX is a file type
+
+Babel 
+    - Compiles Javascript and HTML from JSX
+    - React uses Babel to convert from JSX to Javascript and HTML
+
+Converting our Website into JSX/REACT
+    - We have to PORT our website into React
+    - We slowly port our code to React by creating components of already working code into the new system
+
+Is React the same as Typescript?
+
+Single Page Application
+    - Can be done with React 
+    - Done with components
+
+    Components
+        - Done using <Hello />
+        - Then you create a function with the same name: 
+            - const Hello = () => {};
+        - You have to wrap <Hello /> with a div or something
+        - Your components hvae to be uppercase

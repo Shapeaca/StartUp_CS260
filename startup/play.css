@@ -5,10 +5,10 @@
     height: 50%;
 }*/
 
-main {
-    /*background-image: !*mix-blend-mode(),*! url("images/Background-GeometricMonotone.webp");*/
-    /*z-index: 0;*/
-}
+/*main {*/
+/*    !*background-image: !*mix-blend-mode(),*! url("images/Background-GeometricMonotone.webp");*!*/
+/*    !*z-index: 0;*!*/
+/*}*/
 
 #playBox {
     /*z-index: 3;*/

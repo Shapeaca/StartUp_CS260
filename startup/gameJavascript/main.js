@@ -2,11 +2,12 @@
 let shipCurHeight = 0;
 
 
-const moveVelocity = 10;
+const moveVelocity = 15;
 let curRotation = 0;
 let rotateVelocity = 0;
-const rotateAcceleration = 0.8;
-const maximumAngle = 60; //degrees
+const rotateAcceleration = 0.7;
+const rotateAccelerationSpacePressedMultiplier = 1.8;
+const maximumAngle = 50; //degrees
 const maximumVelocity = 5;
 
 const shipIDStr = "playerShip";
@@ -41,17 +42,13 @@ function main() {
 
     moveWalls(-moveVelocity);
     rotateShip();
-    // moveShip();
-    // removeBlock(blockArray[0].blockID);
+    //todo move moveShip() to this function
 
-    // let verticalVelocity = moveVelocity * Math.tan(toRadians(curRotation)) * direction;
-    // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
-    //
-    // // shipCurHeight += verticalVelocity;
-    // document.getElementById(shipIDStr).style.top = `${shipCurHeight}px`;
-    // if(shipCurHeight >= 420) {
-    //     shipCurHeight = 0;
-    // }
+    blockArray.forEach(block => {
+       if(block.xPos <= -70) {
+           block.xPos = 650;
+       }
+    });
 
 }
 setInterval(main, 33.333);
@@ -70,7 +67,7 @@ function rotateShip() {
     //define acceleration direction
     let intReverser;
     if(spacePressed) {
-        intReverser = -1;
+        intReverser = -1 * rotateAccelerationSpacePressedMultiplier;
     } else {
         intReverser = 1;
     }
