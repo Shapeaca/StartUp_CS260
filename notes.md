@@ -311,3 +311,6 @@ Single Page Application
             - const Hello = () => {};
         - You have to wrap <Hello /> with a div or something
         - Your components hvae to be uppercase
+
+
+## Class Notes 4/1/2024 - Single Page Applications (using React)

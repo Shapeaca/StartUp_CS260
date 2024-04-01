@@ -34,7 +34,7 @@ nav p, nav a {
 .navSelect {
     color: cornflowerblue;
 }
-.accountDisplay {
+#accountDisplay {
     margin-left: auto;
 }
 
