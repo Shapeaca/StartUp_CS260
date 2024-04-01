@@ -1,7 +1,7 @@
 document.getElementById("signupButton").addEventListener("click", signUp);
 
 function signUp() {
-    //fixme make signUp button only be able to be clicked once.
+    //fixme make signUp button only be able to be clicked once? - Lock the button?
     let username = document.getElementById("usernameSignup").value;
     if(username.length > 0) {
         sessionStorage.setItem("username", `${username}`)
