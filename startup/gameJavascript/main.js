@@ -116,7 +116,8 @@ function detectEdges() {
 }
 
 function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text this function
-    originalAngleRadians = Math.atan(yOffset / xOffset); //fixme MAKE SURE y upward is negative angles
+    //fixme MAKE SURE y upward is negative for ALL variables
+    originalAngleRadians = Math.atan(yOffset / xOffset);
     nwAngle = originalAngleRadians + angleRadians;
 
     nwX = radius * Math.cos(nwAngle);

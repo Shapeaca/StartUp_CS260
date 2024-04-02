@@ -16,6 +16,8 @@ addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
 addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
 addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
 
+document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
+
 
 function addRow(tableElement, username, time, attempts) {
     let rowElement = document.createElement("tr");
@@ -33,4 +35,16 @@ function addRow(tableElement, username, time, attempts) {
     rowElement.appendChild(attemptsElement);
 
     tableElement.appendChild(rowElement);
+}
+
+function getCurrentDateTime() {
+    let curDate = new Date();
+    let dateTimeStr = (curDate.getMonth() + 1) + "/"
+                    + curDate.getDate() + "/"
+                    + curDate.getFullYear() + " "
+                    + curDate.getHours() + ":"
+                    + curDate.getMinutes() + ":"
+                    + curDate.getSeconds();
+    console.log(dateTimeStr);
+    return dateTimeStr;
 }
