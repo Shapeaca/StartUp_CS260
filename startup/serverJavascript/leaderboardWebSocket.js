@@ -3,21 +3,26 @@
 //  Update the Websocket time at the bottom of the page based on WHEN the data loads
 
 const tableID = "elementTable";
+const numOfRowsOfTable = 13; //question should I change this number based on how many entries can fit on the page?
 
 let tableElement = document.getElementById(tableID);
 let testVar = {username:"codeUser", time:"12:34", attempts:1234};
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
-addRow(tableElement, testVar.username, testVar.time, testVar.attempts);
 
+//Updating Table
+populateTable(testVar);
 document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
 
+
+function populateTable(leaderBoardData) {
+    let i = 0;
+    while(i < numOfRowsOfTable) {
+        addRow(tableElement, leaderBoardData.username, leaderBoardData.time, leaderBoardData.attempts); //FIXME add leaderBoardData[i] WHEN I add a database
+        i++;
+        // if(i >= leaderBoardData.length) {
+        //     break;
+        // }
+    }
+}
 
 function addRow(tableElement, username, time, attempts) {
     let rowElement = document.createElement("tr");
