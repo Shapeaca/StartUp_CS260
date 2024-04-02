@@ -1,6 +1,6 @@
-//
-let shipCurHeight = 0;
-
+//Ship Image Dimensions;
+const shipCenterX = 105; //px
+let shipCurY = 210; //px - the top edge - + 30 for center;
 
 const moveVelocity = 10;
 let curRotation = 0;
@@ -12,6 +12,11 @@ const maximumVelocity = 5;
 //fixme maximum velocity is a bandaid over what should reset your velocity to a reasonable amount every time you change dirrections?
 
 const shipIDStr = "playerShip";
+
+//edge detection points:
+const shipPoints = [
+    {radius: 55, xOffset: 55, yOffset:0}
+];
 
 //Geometry Dash Ship Movement Notes
 /*
@@ -95,12 +100,12 @@ function rotateShip() {
 }
 
 function moveShip() {
-    //todo should I change sin to tan???
+    //todo should I change sin to tan??? No Probably Not
     let verticalVelocity = moveVelocity * Math.sin(toRadians(curRotation));
     // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
 
-    shipCurHeight += verticalVelocity;
-    document.getElementById(shipIDStr).style.top = `${shipCurHeight}px`;
+    shipCurY += verticalVelocity;
+    document.getElementById(shipIDStr).style.top = `${shipCurY}px`;
     // if(shipCurHeight >= 420) {
     //     shipCurHeight = 0;
     // }
@@ -108,6 +113,16 @@ function moveShip() {
 
 function detectEdges() {
 
+}
+
+function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text this function
+    originalAngleRadians = Math.atan(yOffset / xOffset); //fixme MAKE SURE y upward is negative angles
+    nwAngle = originalAngleRadians + angleRadians;
+
+    nwX = radius * Math.cos(nwAngle);
+    nwY = radius * Math.sin(nwAngle);
+
+    return {xPoint: nwX, yPoint: nwY};
 }
 
 
@@ -151,6 +166,8 @@ function removeBlock(rmvBlockID) { //fixme this code doesn't work
     blockArray = blockArray.filter(block => block.blockID != rmvBlockID);
     document.getElementById(rmvBlockID).remove();
 }
+
+
 
 
 //Event Listeners for Spacebar
