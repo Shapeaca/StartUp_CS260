@@ -41,8 +41,6 @@ function initializeGame() {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
 
-    detectCollision()
-
 }
 
 initializeGame();
@@ -63,7 +61,7 @@ function main() {
     let collsionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
     let isCollision = detectCollision(collsionPoint.xPoint, collsionPoint.yPoint);
     if(isCollision) {
-        console.log("COLLISION at - x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
+        console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
     }
 
 }
@@ -137,7 +135,7 @@ function detectCollision(shipPointX, shipPointY) {
 }
 
 function detectWallHitBox(posX, posY) {
-    let boxSides = {left:posX, right: posX + boxHeight, top: posY, bottom: posY + boxHeight};
+    let boxSides = {left:Number(posX), right: Number(posX) + boxHeight, top: Number(posY), bottom: Number(posY) + boxHeight};
     return boxSides;
 }
 
