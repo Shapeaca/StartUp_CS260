@@ -13,6 +13,8 @@ const maximumVelocity = 5;
 
 const shipIDStr = "playerShip";
 
+const boxHeight = 60; //px
+
 //edge detection points:
 const shipPoints = [
     {radius: 55, xOffset: 55, yOffset:0}
@@ -39,6 +41,8 @@ function initializeGame() {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
 
+    detectCollision()
+
 }
 
 initializeGame();
@@ -55,6 +59,12 @@ function main() {
            block.xPos = 650;
        }
     });
+
+    let collsionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
+    let isCollision = detectCollision(collsionPoint.xPoint, collsionPoint.yPoint);
+    if(isCollision) {
+        console.log("COLLISION at - x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
+    }
 
 }
 setInterval(main, 33.333);
@@ -111,8 +121,24 @@ function moveShip() {
     // }
 }
 
-function detectEdges() {
+function detectCollision(shipPointX, shipPointY) {
+    // let isCollision = false;
+    for(let i = 0; i < blockArray.length; i++) {
+        let sides = detectWallHitBox(blockArray[i].xPos, blockArray[i].yPos);
+        if((sides.left > shipPointX) || (sides.right < shipPointX)) {
+            continue;
+        } else { //x value is equal to square
+            if( (sides.top <= shipPointY) && (sides.bottom >= shipPointY) ) {
+                return true; //IS Collision
+            }
+        }
+    }
+    return false;
+}
 
+function detectWallHitBox(posX, posY) {
+    let boxSides = {left:posX, right: posX + boxHeight, top: posY, bottom: posY + boxHeight};
+    return boxSides;
 }
 
 function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text this function
@@ -120,8 +146,8 @@ function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text 
     originalAngleRadians = Math.atan(yOffset / xOffset);
     nwAngle = originalAngleRadians + angleRadians;
 
-    nwX = radius * Math.cos(nwAngle);
-    nwY = radius * Math.sin(nwAngle);
+    nwX = radius * Math.cos(nwAngle) + shipCenterX;
+    nwY = radius * Math.sin(nwAngle) + shipCurY + 30;
 
     return {xPoint: nwX, yPoint: nwY};
 }
