@@ -11,9 +11,13 @@
 /*}*/
 
 #playBox {
-    /*z-index: 3;*/
-    overflow: hidden; /* hides the content*/
-    /*overflow: clip; !* removes the content*!*/
+    overflow: hidden; /* hides the game content outside play box*/
+
+    /*For the endGame Screen*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.45);
 }
 
 #playerShip {
@@ -51,3 +55,17 @@
 }
 
 */
+
+/*#shadowBox {*/
+/*    background-color: rgba(0, 0, 0, 0.45);*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*}*/
+
+#gameOverText {
+    font-size: 50px;
+}
+
+#gameOverButton {
+    font-size: 30px;
+}

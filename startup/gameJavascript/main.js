@@ -58,10 +58,11 @@ function main() {
        }
     });
 
-    let collsionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
-    let isCollision = detectCollision(collsionPoint.xPoint, collsionPoint.yPoint);
+    //wall collisions
+    let collisionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
+    let isCollision = detectCollision(collisionPoint.xPoint, collisionPoint.yPoint);
     if(isCollision) {
-        console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
+        // console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
     }
 
 }
