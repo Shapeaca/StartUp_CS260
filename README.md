@@ -81,4 +81,11 @@ I added functionality to all the HTML and CSS by doing:
 * I fully implemented the background script to save the color between pages
 * I added sign up page similar to the login page
 * I added functionality to the signup and login buttons, so that they display the logged in user in the upper left corner, and it saves across pages
-* 
+* On the leaderboard page, I added future support for database data by creating a table that will dynamically fill with data provided to it, 
+  * I added websocket support by making it so that you can see the EXACT time the leaderboard updates and gets new data.
+* I coded most of the logic for the game, including:
+  * The player ship rotating according to space bar
+  * The player ship and blocks moving across the page
+  * The automatic creation of objects, so I can use javascript to add, move, and delete objects, for game creation, gameplay, and the end-screen.
+  * The hiding and future deletion of objects when they exit the play-box
+  * The detection of collisions, so that I can end the game in the future
