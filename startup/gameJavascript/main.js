@@ -1,3 +1,6 @@
+import {getScore} from "./score";
+import {addScore} from "./score";
+
 //Ship Image Dimensions;
 const shipCenterX = 105; //px
 let shipCurY = 210; //px - the top edge - + 30 for center;
@@ -19,6 +22,12 @@ const boxHeight = 60; //px
 const shipPoints = [
     {radius: 55, xOffset: 55, yOffset:0}
 ];
+
+//Score Calculation
+let canAddScore = false;
+let score = 0;
+setCanAddScore();
+setInterval(setCanAddScore, 1000);
 
 //Geometry Dash Ship Movement Notes
 /*
@@ -142,11 +151,11 @@ function detectWallHitBox(posX, posY) {
 
 function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text this function
     //fixme MAKE SURE y upward is negative for ALL variables
-    originalAngleRadians = Math.atan(yOffset / xOffset);
-    nwAngle = originalAngleRadians + angleRadians;
+    let originalAngleRadians = Math.atan(yOffset / xOffset);
+    let nwAngle = originalAngleRadians + angleRadians;
 
-    nwX = radius * Math.cos(nwAngle) + shipCenterX;
-    nwY = radius * Math.sin(nwAngle) + shipCurY + 30;
+    let nwX = radius * Math.cos(nwAngle) + shipCenterX;
+    let nwY = radius * Math.sin(nwAngle) + shipCurY + 30;
 
     return {xPoint: nwX, yPoint: nwY};
 }
@@ -190,7 +199,8 @@ function createWall(blockNum, xPos, yPos) {
 
 function removeBlock(rmvBlockID) { //fixme this code doesn't work
     blockArray = blockArray.filter(block => block.blockID != rmvBlockID);
-    document.getElementById(rmvBlockID).remove();
+    let element = document.getElementById(rmvBlockID);
+    element.remove();
 }
 
 
@@ -210,3 +220,20 @@ document.addEventListener("keyup", event => {
         // console.log("Space Released");
     }
 })
+
+
+// Score Calculation
+function addScore() {
+    if(canAddScore === true) {
+        score++;
+        canAddScore = false;
+    }
+}
+
+function setCanAddScore() {
+    canAddScore = true;
+}
+
+function getScore() {
+    return score;
+}
