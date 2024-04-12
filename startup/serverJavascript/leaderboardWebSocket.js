@@ -9,8 +9,12 @@ let tableElement = document.getElementById(tableID);
 let testVar = {username:"codeUser", time:"12:34", attempts:1234};
 
 //Updating Table
-populateTable(testVar);
-document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
+function webSocketUpdate() {
+    populateTable(testVar);
+    document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
+}
+
+setInterval(webSocketUpdate, 5000);
 
 
 function populateTable(leaderBoardData) {
