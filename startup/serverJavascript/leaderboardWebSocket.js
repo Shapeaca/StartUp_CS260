@@ -9,11 +9,15 @@ let tableElement = document.getElementById(tableID);
 let testVar = {username:"codeUser", time:"12:34", attempts:1234};
 
 //Updating Table
+
+
 function webSocketUpdate() {
+    deleteLeaderboard();
     populateTable(testVar);
     document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
 }
 
+webSocketUpdate();
 setInterval(webSocketUpdate, 5000);
 
 
@@ -30,6 +34,7 @@ function populateTable(leaderBoardData) {
 
 function addRow(tableElement, username, time, attempts) {
     let rowElement = document.createElement("tr");
+    rowElement.setAttribute("class", "leaderboardData");
 
     let usernameElement = document.createElement("td");
     usernameElement.innerHTML = `${username}`;
@@ -56,4 +61,13 @@ function getCurrentDateTime() {
                     + curDate.getSeconds();
     console.log(dateTimeStr);
     return dateTimeStr;
+}
+
+function deleteLeaderboard() {
+    let removeArray = document.getElementsByClassName("leaderboardData");
+    while(removeArray.length > 0) {
+        let trElement = removeArray[0];
+        trElement.parentNode.removeChild(trElement);
+    }
+
 }
