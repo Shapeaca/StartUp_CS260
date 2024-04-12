@@ -1,6 +1,3 @@
-import {getScore} from "./score";
-import {addScore} from "./score";
-
 //Ship Image Dimensions;
 const shipCenterX = 105; //px
 let shipCurY = 210; //px - the top edge - + 30 for center;
@@ -136,6 +133,7 @@ function detectCollision(shipPointX, shipPointY) {
         if((sides.left > shipPointX) || (sides.right < shipPointX)) {
             continue;
         } else { //x value is equal to square
+            addScore();
             if( (sides.top <= shipPointY) && (sides.bottom >= shipPointY) ) {
                 return true; //IS Collision
             }
@@ -224,9 +222,10 @@ document.addEventListener("keyup", event => {
 
 // Score Calculation
 function addScore() {
-    if(canAddScore === true) {
-        score++;
+    if(canAddScore == true) {
         canAddScore = false;
+        score++;
+        document.getElementById("scoreDisplay").innerHTML = `Score: ${score}`;
     }
 }
 
@@ -236,4 +235,10 @@ function setCanAddScore() {
 
 function getScore() {
     return score;
+}
+
+function resetScore() {
+    //todo Call endpoint - submit score
+    // todo make score 0
+    score = 0;
 }
