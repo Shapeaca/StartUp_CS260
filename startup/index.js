@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
-const port = process.argv.length > 2 ? process.argv[2] : 63342;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -16,9 +16,10 @@ app.use(`/api`, apiRouter);
 
 
 apiRouter.post('/test', (req, res) => {
-    console.log("Made it to server");
+    // console.log("Made it to server");
     // let testStr = myParseFunction(req.body);
-    res.send("Server Responded");
+    let myStr = myParseFunction(req.body);
+    res.send({msg: myStr}); //fixme this has to be a json when you send it over http!!!
 });
 
 
@@ -36,7 +37,7 @@ app.listen(port, () => {
 
 //test function
 function myParseFunction(loveObject) {
-    let nwObject = loveObject.json();
+    let nwObject = loveObject;
 
     return nwObject.firstStr + " " + nwObject.firstInt + " Loves " + nwObject.secondStr + " " + nwObject.secondInt;
 }
