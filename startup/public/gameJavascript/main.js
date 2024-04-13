@@ -50,8 +50,7 @@ function initializeGame() {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
 
-    startTime = Number(Date.now());
-    console.log(startTime);
+    startTime = Date.now();
 }
 
 initializeGame();
@@ -76,6 +75,7 @@ function main() {
     let collisionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
     let isCollision = detectCollision(collisionPoint.xPoint, collisionPoint.yPoint);
     if(isCollision) { //todo add code here to reset the timer
+        sendResetFinalScore(score);
         // console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
     }
 
@@ -236,14 +236,17 @@ function calculateCurScore(timerStart, timerNow) {
 }
 
 function updateScore() {
-    nowTime = Number(Date.now());
+    nowTime = Date.now();
     let score = calculateCurScore(startTime, nowTime)
-    console.log(score);
     document.getElementById("scoreDisplay").innerHTML = `Score: ${score}`;
     return score;
 }
 
 function sendResetFinalScore(timerFinal) {
-    //todo add a send a final score http request
+    if(timerFinal > 500) {
+        document.getElementById("lastScoreDisplay").innerHTML = `Score: ${timerFinal}`;
+        startTime = Date.now();
+        //todo add a send a final score http request
+    }
     //display final score
 }
