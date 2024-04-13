@@ -247,21 +247,23 @@ function updateScore() {
 function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
         startTime = Date.now();
-        httpScorePost("shapeacaIsCool", timerFinal);
-        Promise.all([httpAttemptPut("shapeacaIsCool")]).then((responses) => {
-            console.log("Promises.all: " + responses[0]);
+
+        Promise.all([httpScorePost("shapeacaIsCool", timerFinal),  httpAttemptPut("shapeacaIsCool"), ]).then((responses) => {
+            console.log("Promises.all: " + responses[0] + " : " + responses[1]);
+            let highScore = 5;
+            document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}&nbsp&nbsp&nbsp&nbsp Number of Attempts: ${responses[1]}`;
         });
         // httpAttemptPut("shapeacaIsCool");
         //todo I need to add a promise that only updates stats when the promise returns
-        updateNewestStats(timerFinal);
+        //updateNewestStats(timerFinal);
         //todo add a send a final score http request
     }
     //display final score
 }
 
-function updateNewestStats (highScore) {
-    document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}`;
-}
+// function updateNewestStats (highScore) {
+//     document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}`;
+// }
 
 function createTimeString(millisecondTime) {
     let milli = Math.floor(millisecondTime % 1000);
@@ -297,20 +299,24 @@ function createTimeString(millisecondTime) {
 
 //https functions
 async function httpScorePost(username, scoreMilliseconds) {
-    let objectToSend = ({user: username, score: scoreMilliseconds});
+    return new Promise(async (resolve, reject) => {
+        let objectToSend = ({user: username, score: scoreMilliseconds});
 
-    try {
-        const response = await fetch('/api/score', {
-            method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify(objectToSend),
-        });
+        try {
+            const response = await fetch('/api/score', {
+                method: 'POST',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(objectToSend),
+            });
 
-        const responseStr = await response.json();
-        console.log(responseStr);
-    } catch {
-        console.log("HTTP Post /api/score Failed");
-    }
+            const responseStr = await response.json();
+            console.log(responseStr);
+            resolve(responseStr);
+        } catch {
+            console.log("HTTP Post /api/score Failed");
+            reject("HTTP Post /api/score Failed");
+        }
+    });
 }
 
 async function httpAttemptPut(username) {
