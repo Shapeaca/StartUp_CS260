@@ -244,9 +244,23 @@ function updateScore() {
 
 function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
-        document.getElementById("lastScoreDisplay").innerHTML = `Score: ${timerFinal}`;
+        document.getElementById("lastScoreDisplay").innerHTML = `Score: ${createTimeString(timerFinal)}`;
         startTime = Date.now();
         //todo add a send a final score http request
     }
     //display final score
+}
+
+function createTimeString(millisecondTime) {
+    let milli = Math.floor(millisecondTime % 1000);
+    let seconds = Math.floor((millisecondTime / 1000) % 60);
+    let minutes = Math.floor((millisecondTime / 1000 / 60) % 60);
+    let hours = Math.floor((millisecondTime / (1000 * 60 * 60)) % 24);
+
+    if (minutes == 0) {
+        return seconds + ":" + milli;
+    } else if (hours == 0) {
+        return minutes + ":" + seconds + ":" + milli;
+    }
+    return hours + ":" + minutes + ":" + seconds + ":" + milli;
 }

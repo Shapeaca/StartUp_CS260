@@ -69,3 +69,8 @@
 #gameOverButton {
     font-size: 30px;
 }
+
+.sDisplay {
+    padding-top: 8px;
+    margin: 0px;
+}
