@@ -17,18 +17,24 @@ app.use(`/api`, apiRouter);
 
 let numAttemptsMemory = 0;
 let highestScore = 0; //a number in milliseconds
-let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
+
+/*let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
+const max = data.reduce(function(prev, current) { //example for finding highest value in an array
+    return (prev && prev.y > current.y) ? prev : current
+}) //returns object*/
 
 //score endpoint
 apiRouter.post('/score', (req, res) => {
-    addToScoresArray(req.body);
-
-    res.send({msg: "Server api/score response"});
+    let sendObject = addToScoresArray(req.body);
+    res.send(sendObject);
+    // res.send({msg: "Server api/score response"});
 });
 
 apiRouter.put('/attempt', (req, res) => {
     // numAttempts = updateAndGetNumAttempts(req.body);
-    res.send({msg: "Server api/attempt response"});
+    nwObject = updateAndGetNumAttempts(req.body);
+    console.log(nwObject);
+    res.send(JSON.stringify(nwObject));
     // res.send({msg: `Number of Attempts: ${numAttempts}`});
 });
 
@@ -45,16 +51,23 @@ app.listen(port, () => {
 
 function addToScoresArray(scoreObject) {
     let nwObject = {user: scoreObject.user, score: scoreObject.score}
-    scoreArr.push(nwObject);
+    if(nwObject.score > highestScore) {
+        highestScore = nwObject.score;
+    }
 
-    // console.log(nwObject);
-    // console.log("ScoreArray Length: " + scoreArr.length);
+    return ({highScore: highestScore});
+
+    // scoreArr.push(nwObject);
 }
 
-function updateAndGetNumAttempts(attemptObject) {
-    let nwObject = {user: attemptObject.user};
-    console.log(`Put/Attempt User Username: ${nwObject.user}`);
-    return numAttemptsMemory + 1;
+function updateAndGetNumAttempts(userAttemptObject) {
+    //  fixme - IN the future, add a attempt counter to each user, and this function adds to that user
+    // let nwObject = {user: attemptObject.user};
+    // console.log(`Put/Attempt User Username: ${attemptObject.user}`);
+    numAttemptsMemory++;
+    let nwObject = ({attempts: numAttemptsMemory});
+    console.log(nwObject);
+    return nwObject;
 }
 
 //todo

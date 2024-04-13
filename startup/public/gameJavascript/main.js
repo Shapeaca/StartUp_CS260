@@ -246,13 +246,21 @@ function updateScore() {
 
 function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
-        document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(timerFinal)}`;
         startTime = Date.now();
         httpScorePost("shapeacaIsCool", timerFinal);
-        httpAttemptPut("shapeacaIsCool");
+        Promise.all([httpAttemptPut("shapeacaIsCool")]).then((responses) => {
+            console.log("Promises.all: " + responses[0]);
+        });
+        // httpAttemptPut("shapeacaIsCool");
+        //todo I need to add a promise that only updates stats when the promise returns
+        updateNewestStats(timerFinal);
         //todo add a send a final score http request
     }
     //display final score
+}
+
+function updateNewestStats (highScore) {
+    document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}`;
 }
 
 function createTimeString(millisecondTime) {
@@ -306,18 +314,23 @@ async function httpScorePost(username, scoreMilliseconds) {
 }
 
 async function httpAttemptPut(username) {
-    let objectToSend = ({user: username});
+    return new Promise(async (resolve, reject) => {
+        let objectToSend = ({user: username});
 
-    try {
-        const response = await fetch('/api/attempt', {
-            method: 'PUT',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify(objectToSend),
-        });
+        try {
+            const response = await fetch('/api/attempt', {
+                method: 'PUT',
+                headers: {'content-type': 'application/json'},
+                body: JSON.stringify(objectToSend),
+            });
 
-        const responseStr = await response.json();
-        console.log(responseStr);
-    } catch {
-        console.log("HTTP Put /api/attempt Failed");
-    }
+            const responseStr = await response.json();
+            console.log(responseStr);
+            let attemptNumStr = responseStr.attempts;
+            resolve(attemptNumStr.toString());
+        } catch {
+            console.log("HTTP Put /api/attempt Failed");
+            reject("HTTP Put /api/attempt Failed");
+        }
+    });
 }
