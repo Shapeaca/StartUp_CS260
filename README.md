@@ -90,3 +90,15 @@ I added functionality to all the HTML and CSS by doing:
   * The automatic creation of objects, so I can use javascript to add, move, and delete objects, for game creation, gameplay, and the end-screen.
   * The hiding and future deletion of objects when they exit the play-box
   * The detection of collisions, so that I can end the game in the future
+
+## Starter Service Deliverable
+I added a backend server with endpoints designed to help keep track of score 
+* I added a score feature in the game with automatic displaying 
+  * Score is the amount of time survived. You die when your ship touches a wall
+* I added a variable to store the max score the user got (stored in the backend) (Displayed on play.html)
+* I added a counter for number of attempts (stored in the backend) (Displayed on play.html)
+* I added index.js to act as the backend of the server
+* I added two fetch requests in main.js (bottom of the page)
+  * they get called to update the (memory) database on the server
+  * they send back the highest score and the number of attempts to the client
+  * On Play.html, the client updates the text to display number of attempts and highest score
