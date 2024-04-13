@@ -248,6 +248,7 @@ function sendResetFinalScore(timerFinal) {
         document.getElementById("lastScoreDisplay").innerHTML = `Score: ${createTimeString(timerFinal)}`;
         startTime = Date.now();
         httpScorePost("shapeacaIsCool", timerFinal);
+        httpAttemptPut("shapeacaIsCool");
         //todo add a send a final score http request
     }
     //display final score
@@ -272,12 +273,7 @@ function createTimeString(millisecondTime) {
 
 //https functions
 async function httpScorePost(username, scoreMilliseconds) {
-
-    // const userName = this.getPlayerName();
-    // const date = new Date().toLocaleDateString();
-    // const newScore = {name: userName, score: score, date: date};
     let objectToSend = ({user: username, score: scoreMilliseconds});
-    console.log(objectToSend);
 
     try {
         const response = await fetch('/api/score', {
@@ -286,12 +282,26 @@ async function httpScorePost(username, scoreMilliseconds) {
             body: JSON.stringify(objectToSend),
         });
 
-        // Store what the service gave us as the high scores
         const responseStr = await response.json();
         console.log(responseStr);
-        // localStorage.setItem('scores', JSON.stringify(scores));
     } catch {
-        // If there was an error then just track scores locally
         console.log("HTTP Post /api/score Failed");
+    }
+}
+
+async function httpAttemptPut(username) {
+    let objectToSend = ({user: username});
+
+    try {
+        const response = await fetch('/api/attempt', {
+            method: 'PUT',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(objectToSend),
+        });
+
+        const responseStr = await response.json();
+        console.log(responseStr);
+    } catch {
+        console.log("HTTP Put /api/attempt Failed");
     }
 }

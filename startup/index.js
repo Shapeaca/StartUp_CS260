@@ -15,21 +15,21 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 
-apiRouter.post('/test', (req, res) => {
-    // console.log("Made it to server");
-    // let testStr = myParseFunction(req.body);
-    let myStr = myParseFunction(req.body);
-    res.send({msg: myStr}); //fixme this has to be a json when you send it over http!!!
-});
-
+let numAttemptsMemory = 0;
 let highestScore = 0; //a number in milliseconds
 let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
 
 //score endpoint
-apiRouter.post('/score', (req, res) => {;
+apiRouter.post('/score', (req, res) => {
     addToScoresArray(req.body);
 
     res.send({msg: "Server api/score response"});
+});
+
+apiRouter.put('/attempt', (req, res) => {
+    // numAttempts = updateAndGetNumAttempts(req.body);
+    res.send({msg: "Server api/attempt response"});
+    // res.send({msg: `Number of Attempts: ${numAttempts}`});
 });
 
 
@@ -43,23 +43,19 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
-
-
-//test function
-function myParseFunction(loveObject) {
-    let nwObject = loveObject;
-
-    return nwObject.firstStr + " " + nwObject.firstInt + " Loves " + nwObject.secondStr + " " + nwObject.secondInt;
-}
-
 function addToScoresArray(scoreObject) {
     let nwObject = {user: scoreObject.user, score: scoreObject.score}
     scoreArr.push(nwObject);
 
-    console.log(nwObject);
-    console.log("ScoreArray Length: " + scoreArr.length);
+    // console.log(nwObject);
+    // console.log("ScoreArray Length: " + scoreArr.length);
 }
 
+function updateAndGetNumAttempts(attemptObject) {
+    let nwObject = {user: attemptObject.user};
+    console.log(`Put/Attempt User Username: ${nwObject.user}`);
+    return numAttemptsMemory + 1;
+}
 
 //todo
 // CReate endpoints and local storage for score, num of attempts, and eventually login, signup
