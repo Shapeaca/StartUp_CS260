@@ -26,6 +26,7 @@ const max = data.reduce(function(prev, current) { //example for finding highest 
 //score endpoint
 apiRouter.post('/score', (req, res) => {
     let sendObject = addToScoresArray(req.body);
+    // console.log(sendObject);
     res.send(sendObject);
     // res.send({msg: "Server api/score response"});
 });
@@ -33,7 +34,7 @@ apiRouter.post('/score', (req, res) => {
 apiRouter.put('/attempt', (req, res) => {
     // numAttempts = updateAndGetNumAttempts(req.body);
     nwObject = updateAndGetNumAttempts(req.body);
-    console.log(nwObject);
+    // console.log(nwObject);
     res.send(JSON.stringify(nwObject));
     // res.send({msg: `Number of Attempts: ${numAttempts}`});
 });
@@ -56,8 +57,6 @@ function addToScoresArray(scoreObject) {
     }
 
     return ({highScore: highestScore});
-
-    // scoreArr.push(nwObject);
 }
 
 function updateAndGetNumAttempts(userAttemptObject) {
@@ -66,7 +65,7 @@ function updateAndGetNumAttempts(userAttemptObject) {
     // console.log(`Put/Attempt User Username: ${attemptObject.user}`);
     numAttemptsMemory++;
     let nwObject = ({attempts: numAttemptsMemory});
-    console.log(nwObject);
+    // console.log(nwObject);
     return nwObject;
 }
 

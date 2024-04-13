@@ -1,5 +1,4 @@
-//Ship Image Dimensions;
-
+//required game variables
 const shipCenterX = 105; //px
 let shipCurY = 210; //px - the top edge - + 30 for center;
 
@@ -10,25 +9,18 @@ const rotateAcceleration = 0.7;
 const rotateAccelerationSpacePressedMultiplier = 1.8;
 const maximumAngle = 50; //degrees
 const maximumVelocity = 5;
-//fixme maximum velocity is a bandaid over what should reset your velocity to a reasonable amount every time you change dirrections?
 
 const shipIDStr = "playerShip";
-
-const boxHeight = 60; //px
+const boxHeight = 60; //pxe
 
 //edge detection points:
 const shipPoints = [
     {radius: 55, xOffset: 55, yOffset:0}
 ];
 
-//Score Calculation
-// let canAddScore = false;
+//score local variables - other variables are on server
 let nowTime = 0;
 let startTime = 0;
-let finalScore = 0;
-
-// setCanAddScore();
-// setInterval(setCanAddScore, 1000);
 
 //Geometry Dash Ship Movement Notes
 /*
@@ -40,6 +32,11 @@ let finalScore = 0;
 let blockArray = [];
 let spacePressed = false;
 
+
+
+
+
+//initialization and main game loop
 function initializeGame() {
     createShip();
     createWall(1, 500, 0);
@@ -83,11 +80,11 @@ function main() {
 
 }
 setInterval(main, 33.333);
-//todo make up for how long it takes for Main to process, and subtract that from the time of SetInterval()
 
 
-// Can put functions below
 
+
+//misc functions below
 function toRadians (angle) {
     return angle * (Math.PI / 180);
 }
@@ -102,7 +99,6 @@ function rotateShip() {
     } else {
         intReverser = 1;
     }
-
     //define velocity
     rotateVelocity = rotateVelocity + (intReverser * rotateAcceleration);
     if (rotateVelocity < -maximumVelocity) {
@@ -110,7 +106,6 @@ function rotateShip() {
     } else if (rotateVelocity > maximumVelocity) {
         rotateVelocity = maximumVelocity;
     }
-
     //define rotation
     curRotation = curRotation + rotateVelocity;
     if (curRotation < -maximumAngle) {
@@ -118,22 +113,15 @@ function rotateShip() {
     } else if (curRotation > maximumAngle) {
         curRotation = maximumAngle;
     }
-
     //set rotation
     document.getElementById(shipIDStr).style.transform = `rotate(${curRotation}deg)`;
     moveShip();
 }
 
 function moveShip() {
-    //todo should I change sin to tan??? No Probably Not
     let verticalVelocity = moveVelocity * Math.sin(toRadians(curRotation));
-    // console.log("degrees: " + curRotation + "   vertical Velocity: " + verticalVelocity);
-
     shipCurY += verticalVelocity;
     document.getElementById(shipIDStr).style.top = `${shipCurY}px`;
-    // if(shipCurHeight >= 420) {
-    //     shipCurHeight = 0;
-    // }
 }
 
 function detectCollision(shipPointX, shipPointY) {
@@ -169,6 +157,8 @@ function calculateNwPoint(radius, xOffset, yOffset, angleRadians) { //todo text 
 
 
 
+
+
 //Walls
 function moveWalls(changeInXPos) {
     // console.log("Moving Walls:");
@@ -178,8 +168,6 @@ function moveWalls(changeInXPos) {
         document.getElementById(block.blockID).style.left = `${block.xPos}px`;
     })
 }
-
-//add array of wall object
 
 function createShip() {
     let shipElement = document.createElement('img');
@@ -195,7 +183,6 @@ function createWall(blockNum, xPos, yPos) {
     blockElement.setAttribute("class", "block")
     blockElement.setAttribute("id", `block${blockNum}`);
     document.getElementById("playBox").appendChild(blockElement);
-
     //add to blockArray
     let block = {blockID:`block${blockNum}`, xPos:`${xPos}`, yPos:`${yPos}`};
     blockArray.push(block);
@@ -226,7 +213,7 @@ document.addEventListener("keyup", event => {
         spacePressed = false;
         // console.log("Space Released");
     }
-})
+});
 
 
 
@@ -240,30 +227,9 @@ function updateScore() {
     nowTime = Date.now();
     let score = calculateCurScore(startTime, nowTime)
     let scoreStr = createTimeString(score);
-    document.getElementById("scoreDisplay").innerHTML = `Score: ${scoreStr}`;
+    document.getElementById("scoreDisplay").innerHTML = `Current Score: ${scoreStr}`;
     return score;
 }
-
-function sendResetFinalScore(timerFinal) {
-    if(timerFinal > 500) {
-        startTime = Date.now();
-
-        Promise.all([httpScorePost("shapeacaIsCool", timerFinal),  httpAttemptPut("shapeacaIsCool"), ]).then((responses) => {
-            console.log("Promises.all: " + responses[0] + " : " + responses[1]);
-            let highScore = 5;
-            document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}&nbsp&nbsp&nbsp&nbsp Number of Attempts: ${responses[1]}`;
-        });
-        // httpAttemptPut("shapeacaIsCool");
-        //todo I need to add a promise that only updates stats when the promise returns
-        //updateNewestStats(timerFinal);
-        //todo add a send a final score http request
-    }
-    //display final score
-}
-
-// function updateNewestStats (highScore) {
-//     document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(highScore)}`;
-// }
 
 function createTimeString(millisecondTime) {
     let milli = Math.floor(millisecondTime % 1000);
@@ -275,17 +241,14 @@ function createTimeString(millisecondTime) {
     while(milliStr.length < 3) {
         milliStr = "0" + milliStr;
     }
-
     let secondStr = seconds.toString();
     while(secondStr.length < 2) {
         secondStr = "0" + secondStr;
     }
-
     let minuteStr = minutes.toString();
     while(minuteStr.length < 2) {
         minuteStr = "0" + minuteStr;
     }
-
     let hourStr = hours.toString();
     while(hourStr.length < 2) {
         hourStr = "0" + hourStr;
@@ -296,6 +259,21 @@ function createTimeString(millisecondTime) {
 
 
 
+
+
+//calling http functions
+function sendResetFinalScore(timerFinal) {
+    if(timerFinal > 500) {
+        startTime = Date.now();
+
+        Promise.all([ httpScorePost("shapeacaIsCool", timerFinal),  httpAttemptPut("shapeacaIsCool") ]).then((responses) => {
+
+            document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses[0])}&nbsp&nbsp&nbsp&nbsp Number of Attempts: ${responses[1]}`;
+
+        }); //todo add a catch statement
+
+    }
+}
 
 //https functions
 async function httpScorePost(username, scoreMilliseconds) {
@@ -310,8 +288,8 @@ async function httpScorePost(username, scoreMilliseconds) {
             });
 
             const responseStr = await response.json();
-            console.log(responseStr);
-            resolve(responseStr);
+            let highScoreNum = responseStr.highScore;
+            resolve(highScoreNum);
         } catch {
             console.log("HTTP Post /api/score Failed");
             reject("HTTP Post /api/score Failed");
@@ -331,7 +309,6 @@ async function httpAttemptPut(username) {
             });
 
             const responseStr = await response.json();
-            console.log(responseStr);
             let attemptNumStr = responseStr.attempts;
             resolve(attemptNumStr.toString());
         } catch {
