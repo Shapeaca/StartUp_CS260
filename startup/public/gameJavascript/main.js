@@ -239,13 +239,14 @@ function calculateCurScore(timerStart, timerNow) {
 function updateScore() {
     nowTime = Date.now();
     let score = calculateCurScore(startTime, nowTime)
-    document.getElementById("scoreDisplay").innerHTML = `Score: ${score}`;
+    let scoreStr = createTimeString(score);
+    document.getElementById("scoreDisplay").innerHTML = `Score: ${scoreStr}`;
     return score;
 }
 
 function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
-        document.getElementById("lastScoreDisplay").innerHTML = `Score: ${createTimeString(timerFinal)}`;
+        document.getElementById("lastScoreDisplay").innerHTML = `Last Score: ${createTimeString(timerFinal)}`;
         startTime = Date.now();
         httpScorePost("shapeacaIsCool", timerFinal);
         httpAttemptPut("shapeacaIsCool");
@@ -260,12 +261,27 @@ function createTimeString(millisecondTime) {
     let minutes = Math.floor((millisecondTime / 1000 / 60) % 60);
     let hours = Math.floor((millisecondTime / (1000 * 60 * 60)) % 24);
 
-    if (minutes == 0) {
-        return seconds + ":" + milli;
-    } else if (hours == 0) {
-        return minutes + ":" + seconds + ":" + milli;
+    let milliStr = milli.toString();
+    while(milliStr.length < 3) {
+        milliStr = "0" + milliStr;
     }
-    return hours + ":" + minutes + ":" + seconds + ":" + milli;
+
+    let secondStr = seconds.toString();
+    while(secondStr.length < 2) {
+        secondStr = "0" + secondStr;
+    }
+
+    let minuteStr = minutes.toString();
+    while(minuteStr.length < 2) {
+        minuteStr = "0" + minuteStr;
+    }
+
+    let hourStr = hours.toString();
+    while(hourStr.length < 2) {
+        hourStr = "0" + hourStr;
+    }
+
+    return hourStr + ":" + minuteStr + ":" + secondStr + ":" + milliStr;
 }
 
 
