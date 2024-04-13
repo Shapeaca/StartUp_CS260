@@ -21,10 +21,13 @@ const shipPoints = [
 ];
 
 //Score Calculation
-let canAddScore = false;
-let score = 0;
-setCanAddScore();
-setInterval(setCanAddScore, 1000);
+// let canAddScore = false;
+let nowTime = 0;
+let startTime = 0;
+let finalScore = 0;
+
+// setCanAddScore();
+// setInterval(setCanAddScore, 1000);
 
 //Geometry Dash Ship Movement Notes
 /*
@@ -47,6 +50,8 @@ function initializeGame() {
         // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
     });
 
+    startTime = Number(Date.now());
+    console.log(startTime);
 }
 
 initializeGame();
@@ -64,12 +69,16 @@ function main() {
        }
     });
 
+    //calculate and Update Score
+    let score = updateScore();
+
     //wall collisions
     let collisionPoint = calculateNwPoint(shipPoints[0].radius, shipPoints[0].xOffset, shipPoints[0].yOffset, toRadians(curRotation));
     let isCollision = detectCollision(collisionPoint.xPoint, collisionPoint.yPoint);
-    if(isCollision) {
+    if(isCollision) { //todo add code here to reset the timer
         // console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
     }
+
 
 }
 setInterval(main, 33.333);
@@ -133,7 +142,6 @@ function detectCollision(shipPointX, shipPointY) {
         if((sides.left > shipPointX) || (sides.right < shipPointX)) {
             continue;
         } else { //x value is equal to square
-            addScore();
             if( (sides.top <= shipPointY) && (sides.bottom >= shipPointY) ) {
                 return true; //IS Collision
             }
@@ -220,25 +228,22 @@ document.addEventListener("keyup", event => {
 })
 
 
-// Score Calculation
-function addScore() {
-    if(canAddScore == true) {
-        canAddScore = false;
-        score++;
-        document.getElementById("scoreDisplay").innerHTML = `Score: ${score}`;
-    }
+
+
+//score function:
+function calculateCurScore(timerStart, timerNow) {
+    return timerNow - timerStart;
 }
 
-function setCanAddScore() {
-    canAddScore = true;
-}
-
-function getScore() {
+function updateScore() {
+    nowTime = Number(Date.now());
+    let score = calculateCurScore(startTime, nowTime)
+    console.log(score);
+    document.getElementById("scoreDisplay").innerHTML = `Score: ${score}`;
     return score;
 }
 
-function resetScore() {
-    //todo Call endpoint - submit score
-    // todo make score 0
-    score = 0;
+function sendResetFinalScore(timerFinal) {
+    //todo add a send a final score http request
+    //display final score
 }

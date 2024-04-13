@@ -40,3 +40,12 @@ function myParseFunction(loveObject) {
 
     return nwObject.firstStr + " " + nwObject.firstInt + " Loves " + nwObject.secondStr + " " + nwObject.secondInt;
 }
+
+
+//todo get my server running on node, and then call it correctly, to debug!
+//  Ask TAs
+
+//todo for tonight
+//todo get scores working - With a stopwatch instead of other thing
+//todo get a game end (actually time restart) whenever the user hits a wall.
+
