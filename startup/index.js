@@ -15,28 +15,30 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 
+
+//Memory on the server
 let numAttemptsMemory = 0;
 let highestScore = 0; //a number in milliseconds
 
-/*let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
+
+
+/*let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object //fixme code for the future
 const max = data.reduce(function(prev, current) { //example for finding highest value in an array
     return (prev && prev.y > current.y) ? prev : current
 }) //returns object*/
 
+
+
 //score endpoint
 apiRouter.post('/score', (req, res) => {
     let sendObject = addToScoresArray(req.body);
-    // console.log(sendObject);
     res.send(sendObject);
-    // res.send({msg: "Server api/score response"});
 });
 
+//attempt endpoint
 apiRouter.put('/attempt', (req, res) => {
-    // numAttempts = updateAndGetNumAttempts(req.body);
-    nwObject = updateAndGetNumAttempts(req.body);
-    // console.log(nwObject);
+    let nwObject = updateAndGetNumAttempts(req.body);
     res.send(JSON.stringify(nwObject));
-    // res.send({msg: `Number of Attempts: ${numAttempts}`});
 });
 
 
@@ -50,24 +52,21 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
+
+
+//misc functions
 function addToScoresArray(scoreObject) {
     let nwObject = {user: scoreObject.user, score: scoreObject.score}
     if(nwObject.score > highestScore) {
         highestScore = nwObject.score;
     }
-
     return ({highScore: highestScore});
 }
 
 function updateAndGetNumAttempts(userAttemptObject) {
     //  fixme - IN the future, add a attempt counter to each user, and this function adds to that user
-    // let nwObject = {user: attemptObject.user};
-    // console.log(`Put/Attempt User Username: ${attemptObject.user}`);
     numAttemptsMemory++;
     let nwObject = ({attempts: numAttemptsMemory});
-    // console.log(nwObject);
     return nwObject;
 }
 
-//todo
-// CReate endpoints and local storage for score, num of attempts, and eventually login, signup
