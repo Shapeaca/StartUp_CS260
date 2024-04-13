@@ -43,9 +43,6 @@ function myParseFunction(loveObject) {
 
 
 //todo get my server running on node, and then call it correctly, to debug!
-//  Ask TAs
+//  Ask TAs about getting my server endpoints working - Why the 500 error? (It was a 500 error earlier)
 
-//todo for tonight
-//todo get scores working - With a stopwatch instead of other thing
-//todo get a game end (actually time restart) whenever the user hits a wall.
 
