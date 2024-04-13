@@ -26,9 +26,8 @@ let highestScore = 0; //a number in milliseconds
 let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
 
 //score endpoint
-apiRouter.post('/score', (req, res) => {
-    let scoreObject = myParseFunction(req.body);
-    addToScoresArray(scoreObject);
+apiRouter.post('/score', (req, res) => {;
+    addToScoresArray(req.body);
 
     res.send({msg: "Server api/score response"});
 });
@@ -55,9 +54,10 @@ function myParseFunction(loveObject) {
 
 function addToScoresArray(scoreObject) {
     let nwObject = {user: scoreObject.user, score: scoreObject.score}
-    console.log(scoreArr.length);
     scoreArr.push(nwObject);
+
     console.log(nwObject);
+    console.log("ScoreArray Length: " + scoreArr.length);
 }
 
 

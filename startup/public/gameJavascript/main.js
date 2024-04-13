@@ -277,6 +277,7 @@ async function httpScorePost(username, scoreMilliseconds) {
     // const date = new Date().toLocaleDateString();
     // const newScore = {name: userName, score: score, date: date};
     let objectToSend = ({user: username, score: scoreMilliseconds});
+    console.log(objectToSend);
 
     try {
         const response = await fetch('/api/score', {
