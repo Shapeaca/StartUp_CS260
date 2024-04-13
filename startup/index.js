@@ -22,6 +22,17 @@ apiRouter.post('/test', (req, res) => {
     res.send({msg: myStr}); //fixme this has to be a json when you send it over http!!!
 });
 
+let highestScore = 0; //a number in milliseconds
+let scoreArr = []; //{user: "Shapeaca", score: "53,065} - Example storage object
+
+//score endpoint
+apiRouter.post('/score', (req, res) => {
+    let scoreObject = myParseFunction(req.body);
+    addToScoresArray(scoreObject);
+
+    res.send({msg: "Server api/score response"});
+});
+
 
 
 // Return the application's default page if the path is unknown
@@ -42,8 +53,13 @@ function myParseFunction(loveObject) {
     return nwObject.firstStr + " " + nwObject.firstInt + " Loves " + nwObject.secondStr + " " + nwObject.secondInt;
 }
 
+function addToScoresArray(scoreObject) {
+    let nwObject = {user: scoreObject.user, score: scoreObject.score}
+    console.log(scoreArr.length);
+    scoreArr.push(nwObject);
+    console.log(nwObject);
+}
 
-//todo get my server running on node, and then call it correctly, to debug!
-//  Ask TAs about getting my server endpoints working - Why the 500 error? (It was a 500 error earlier)
 
-
+//todo
+// CReate endpoints and local storage for score, num of attempts, and eventually login, signup

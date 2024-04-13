@@ -1,4 +1,5 @@
 //Ship Image Dimensions;
+
 const shipCenterX = 105; //px
 let shipCurY = 210; //px - the top edge - + 30 for center;
 
@@ -246,6 +247,7 @@ function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
         document.getElementById("lastScoreDisplay").innerHTML = `Score: ${createTimeString(timerFinal)}`;
         startTime = Date.now();
+        httpScorePost("shapeacaIsCool", timerFinal);
         //todo add a send a final score http request
     }
     //display final score
@@ -263,4 +265,32 @@ function createTimeString(millisecondTime) {
         return minutes + ":" + seconds + ":" + milli;
     }
     return hours + ":" + minutes + ":" + seconds + ":" + milli;
+}
+
+
+
+
+//https functions
+async function httpScorePost(username, scoreMilliseconds) {
+
+    // const userName = this.getPlayerName();
+    // const date = new Date().toLocaleDateString();
+    // const newScore = {name: userName, score: score, date: date};
+    let objectToSend = ({user: username, score: scoreMilliseconds});
+
+    try {
+        const response = await fetch('/api/score', {
+            method: 'POST',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(objectToSend),
+        });
+
+        // Store what the service gave us as the high scores
+        const responseStr = await response.json();
+        console.log(responseStr);
+        // localStorage.setItem('scores', JSON.stringify(scores));
+    } catch {
+        // If there was an error then just track scores locally
+        console.log("HTTP Post /api/score Failed");
+    }
 }
