@@ -33,28 +33,30 @@ let blockArray = [];
 let spacePressed = false;
 
 
-
-
-
 //initialization and main game loop
+checkLoginDetails(); //Where everything gets called
+
+function checkLoginDetails() {
+    let testBool = true; //fixme replace this
+    if(testBool === true) {
+        initializeGame();
+        document.getElementById("playLoginRestrictionText").remove();
+    }
+}
 function initializeGame() {
+
+
     createShip();
     createWall(1, 500, 0);
     createWall(2, 500, 60);
     createWall(3, 500, 120);
     createWall(4, 500, 180);
 
-    blockArray.forEach(block => {
-        // console.log("ID:" + block.blockID + " xPosition:" + block.xPos + " yPosition:" + block.yPos + " ");
-    });
-
     startTime = Date.now();
+    setInterval(main, 33.333);
 }
 
-initializeGame();
-
-//Main Loop - Runs 30 times per second
-function main() {
+function main() { //Runs 30 times per second
 
     moveWalls(-moveVelocity);
     rotateShip();
@@ -77,9 +79,7 @@ function main() {
         // console.log("COLLISION at x:" + collsionPoint.xPoint + " y:" + collsionPoint.yPoint);
     }
 
-
 }
-setInterval(main, 33.333);
 
 
 
@@ -90,7 +90,6 @@ function toRadians (angle) {
 }
 
 //Ship Movement
-
 function rotateShip() {
     //define acceleration direction
     let intReverser;
