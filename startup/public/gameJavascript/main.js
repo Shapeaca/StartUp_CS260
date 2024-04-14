@@ -37,11 +37,11 @@ let spacePressed = false;
 checkLoginDetails(); //Where everything gets called
 
 function checkLoginDetails() {
-    let testBool = true; //fixme replace this
+    let testBool = true; //fixme replace this with an actual login check
     if(testBool === true) {
         initializeGame();
         document.getElementById("playLoginRestrictionText").remove();
-    }
+    } //todo add a if false that just adds what currently is added by the html
 }
 function initializeGame() {
 

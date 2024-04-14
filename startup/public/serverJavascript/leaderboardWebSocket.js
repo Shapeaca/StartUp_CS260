@@ -1,7 +1,3 @@
-//todo list
-//  Make functions that can create a table based on data
-//  Update the Websocket time at the bottom of the page based on WHEN the data loads
-
 const tableID = "elementTable";
 const numOfRowsOfTable = 13; //question should I change this number based on how many entries can fit on the page?
 
@@ -11,15 +7,18 @@ let testVar = {username:"codeUser", time:"12:34", attempts:1234};
 //Updating Table
 
 
+webSocketUpdate(); //What gets called to start everything
+setInterval(webSocketUpdate, 5000);
+
+function initializeTable() {
+    //todo add
+}
+
 function webSocketUpdate() {
     deleteLeaderboard();
     populateTable(testVar);
     document.getElementById("websocketUpdateTime").innerHTML = getCurrentDateTime();
 }
-
-webSocketUpdate();
-setInterval(webSocketUpdate, 5000);
-
 
 function populateTable(leaderBoardData) {
     let i = 0;
