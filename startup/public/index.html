@@ -9,28 +9,20 @@
 
 <!--
 Todo list:
-    1) Deploy Simon.js
-    2) Make it so that buttons do stuff?
-        - Question how do I check the input boxes, and read them into javascript???
-todo 8) recolor all text so it is easier to read
-    9) Make the database list like the top 10 results, as well as the current User's rating and their rank
+    todo 8) recolor all text so it is easier to read
 
 todo list js:
     1) Make a very basic game framework that is capable of:
         * Removing objects
         * Game End
-        * Score
         * randomization of preset obstacles:
            * I create different placements/functions that create a wall of blocks, and then I randomize which one will be selected
         * Use of Promise - to prevent browser lock when I'm playing the game
         * detecting collisions of objects!!! (I can soo do this! I did this in 6th grade!!!)
-    2) Make javascript files for saving data and calling endpoints.
     3) Create a account tab on the upper-right of each screen that shows when a user is logged in
         - prevent the game from being played (and maybe the table from being loaded) until a user is logged in
-        - remove index.html "your username is: null"
-    4) finish javascript homework
-    5) Get play link on all 3 other pages to have an event listener that brings you to a different play page based on if you are logged in or not
-    6) Add an end screen and a play again button
+
+               6) Add an end screen and a play again button
 -->
 
 <Header>
@@ -76,3 +68,29 @@ todo list js:
 </body>
 </html>
 
+
+<!--
+    todo login service
+         1) 20% - Supports new user registration
+            - Work on register endpoint
+         2) 20% - Supports existing user authentication
+            - Work on login endpoint
+            - Add Authtoken ??? (once I do everything else)
+         3) 20% - Stores application data in MongoDB
+            - Figure out how to connect in the server
+         4) 20% - Stores and retrieves credentials in MongoDB
+            - Figure out and add data access stuff
+            - Encrypt passwords and usernames (If I have time)
+         5) 20% - Restricts application functionality based upon authentication
+            - Work on locking the game and leaderboard if there is not an auth token
+
+         todo final steps:
+             6) deploy simon
+             7) Write in readme.md what I did
+
+    //Endpoints needed:
+    //login
+    //register
+    //Auth token??? (This seems like a lot of work
+
+-->
