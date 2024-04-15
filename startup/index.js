@@ -47,11 +47,12 @@ apiRouter.put('/attempt', (req, res) => {
 });
 
 apiRouter.post(`/login`, (req, res) => {
-    let nwObject;
-    Promise.all([loginFunction(req.body)] ).then(result => {
-        nwObject = result;
+    // let nwObject;
+    loginFunction(req.body).then(result => {
+        // nwObject = result;
         console.log(result);
-        setAuthCookie(res, nwObject.token);
+        console.log(result.token + " = the auth cookie");
+        setAuthCookie(res, result.token);
         res.send(JSON.stringify("Server ping back to client"));
     }).catch(error => {
         res.send("500 server error: " + error);
@@ -90,7 +91,6 @@ function updateAndGetNumAttempts(userAttemptObject) {
 async function loginFunction(loginObject) {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Starting await");
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
             let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
             resolve(nwObject);
