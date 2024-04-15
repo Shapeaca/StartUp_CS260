@@ -1,6 +1,3 @@
-// const bcrypt = require('bcrypt');
-
-
 document.getElementById("loginButton").addEventListener("click", login);
 
 function login() {
@@ -23,9 +20,6 @@ function login() {
 
 async function httpLoginPost(username, password) {
     return new Promise(async (resolve, reject) => {
-        // let encryptedUsername = await bycrpt.hash(username, 10);
-        // let encryptedPassword = await bcrypt.hash(password, 10);
-        // console.log(password + " Turns into: " + encryptedPassword);
 
         let objectToSend = ({username: username, password: password});
 

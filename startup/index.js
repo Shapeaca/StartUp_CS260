@@ -1,4 +1,6 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 const app = express();
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
@@ -75,9 +77,10 @@ function updateAndGetNumAttempts(userAttemptObject) {
     return nwObject;
 }
 
-function loginFunction(loginObject) {
-    let nwObject = {username: loginObject.username, password: loginObject.password};
-    console.log(nwObject);
+async function loginFunction(loginObject) {
+    const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
+    let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
+    // console.log(nwObject);
     return nwObject;
 }
 

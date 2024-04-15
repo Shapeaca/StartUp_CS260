@@ -314,3 +314,98 @@ Single Page Application
 
 
 ## Class Notes 4/1/2024 - Single Page Applications (using React)
+
+
+
+## Class Final Review 4/15/2024 
+
+Which Express middleware will match this fetch request 
+    - .delete, /fav\/(.*)/ 
+        * . = anything 
+        * * means that it can b e repeated (regex)
+* Middle Ware - The way Express is coded, it uses middleware
+
+You can use fetch in front-end and back-end code
+    - True
+* Fetch just means calling another service
+* If you use fetch in your back-end, it probably means you are fetching another unrelated website/service
+
+Port 80 is reserved for?
+    - HTTP
+* HTTP - 80
+* HTTPS - 443
+* SSH - 22
+* FTP - 20 & 21
+
+What component will the URL `/burger` render?
+    - <Route path=`/burger` element={<B /} />
+    - B
+
+() Study This
+Which is NOT a standard HTTP header? 
+    - Language (is NOT)
+* Standard HTTP headers - (Know these)
+* * Cookie
+* * Content-Type
+* * Host
+
+What is NOT a purpose of JSX
+    - to combine HTML, CSS, and Javascript (NOT THIS ONE - Not CSS) (It combines Javascript and HTML)
+* What it allows
+* * To render HTML from Javascript
+* * to Componentize your html
+* * to allow for composability of your HTML (Putting components together)
+
+Which of the following is NOT true about a linux Daemon?
+    - Cannot fork other processes (Not this one)
+* A Daemon is something that runs around that doesn't have a user associated with it
+* * It runs at the opperating system level
+* * It doesn't need an account, even though the request does usually
+
+What does the command "NPM install ws" NOT do
+    - Add template code for websockets to your javascript (does NOT do this)
+* ws = websockets
+* It:
+* * Locks the version of ws for your application
+* * Adds dependancies
+* * one more thing
+
+For the request [GET] /fav/george whit is logged?
+    - Paul george john
+* app.use is called for everything
+* Have to use   next(); in order for the next express middleware to be called
+* /* (matches everything)
+* Express servers can freeze without a res.send() call
+
+Given the following code, what will console.log print? - WEBSOCKETS example
+    - Client:Server:msg
+    - - msg = "hello"
+
+What value does WebSocket add to HTTP?
+    - It is peer to peer instead of client to server
+
+Cookies allow: 
+    - A server to store data on the client
+* The idea is:
+* * Something the server is leaving on the client
+
+HTTP status codes in the 300 range are for?
+    - Content redirects or caching
+* Success = 200
+* Content redirect or caching = 300
+* Client error = 400
+* Server error = 500
+
+Why is hashing stored passwords important
+    - Security
+
+What will component A initially display? - REACT example
+    - tacofish
+* The var x initially gets set to B, but later it gets reset to D
+* * Because of React - Update function
+
+What document matches this MongoDB query?
+    - {name: "Walke", score:-55}
+* default is and
+* * We reset it to $OR
+* lt = less than
