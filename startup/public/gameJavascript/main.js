@@ -37,15 +37,18 @@ let spacePressed = false;
 checkLoginDetails(); //Where everything gets called
 
 function checkLoginDetails() {
-    let testBool = true; //fixme replace this with an actual login check
+    let testBool = false; //fixme replace this with an actual login check
     if(testBool === true) {
         initializeGame();
-        document.getElementById("playLoginRestrictionText").remove();
-    } //todo add a if false that just adds what currently is added by the html
+    } else {
+        let loginBlockerElement = document.createElement("p");
+        loginBlockerElement.setAttribute("id", "leaderboardLoginRestrictionText");
+        loginBlockerElement.innerHTML = "Please login in order to play!";
+        document.getElementById("playBox").appendChild(loginBlockerElement);
+    }
 }
+
 function initializeGame() {
-
-
     createShip();
     createWall(1, 500, 0);
     createWall(2, 500, 60);

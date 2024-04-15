@@ -8,15 +8,17 @@ let tableElement;
 checkLoginDetails();//What gets called to start everything
 
 function checkLoginDetails() {
-    let testBool = true;
+    let testBool = false;
     if(testBool === true) {
         tableElement = initializeTable();
         webSocketUpdate();
         setInterval(webSocketUpdate, 5000);
     } else {
         let loginBlockerElement = document.createElement("p");
-        loginBlockerElement.setAttribute("id", "leaderboardLoginRestrictionText");
+        loginBlockerElement.setAttribute("id", "playLoginRestrictionText");
         loginBlockerElement.innerHTML = "Please login in order to view leaderboard!";
+
+        // loginBlockerElement.style.fontSize = "30px";
         document.getElementById("tableDiv").appendChild(loginBlockerElement);
     }
 }
