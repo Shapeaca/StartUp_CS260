@@ -66,6 +66,7 @@ apiRouter.post(`/login`, (req, res) => {
         setAuthCookie(res, result.token);
         res.send(JSON.stringify("Server ping back to client"));
     }).catch(error => {
+        console.log(error);
         res.send("500 server error: " + error);
     });
 });
@@ -103,12 +104,14 @@ async function loginFunction(loginObject) {
     return new Promise(async (resolve, reject) => {
         try {
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
-            let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
+            let lowerUsername = loginObject.username.toLowerCase();
+            let nwObject = {username: lowerUsername, password: encryptedPassword, token: uuid.v4()};
             await insertUserToDatabase(nwObject.username, nwObject.password, "TestEmail@gmail.com", nwObject.token);
+            await updateUserAuthToken(nwObject.username, "FakeAuthToken");
             resolve(nwObject);
-        } catch {
-            console.log("Log-in Promise declined");
-            reject();
+        } catch (error) {
+            console.log(reject);
+            reject(error);
         }
     });
 }
@@ -141,13 +144,29 @@ async function insertUserToDatabase(username, hashPassword, email, curAuthToken)
                 username: username,
                 password: hashPassword,
                 email: email,
-                curAuthToken: curAuthToken
+                authtoken: curAuthToken
             }
+            await collectionUser.createIndex({ username: 1 }, { unique: true });
             await collectionUser.insertOne(userObject);
             console.log("Insert Successful");
             resolve();
-        } catch {
+        } catch (error) {
             console.log("ERROR: Database Promise declined");
+            reject("ERROR: Database User insert Promise declined because: " + error);
+        }
+    });
+}
+
+async function updateUserAuthToken(username, nwAuthToken) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const query = {username: `${username}`};
+            const set = {$set: {authtoken: nwAuthToken}};
+            collectionUser.updateOne(query, set);
+            console.log("Success");
+            resolve();
+        } catch {
+            console.log("ERROR: Database Promise update Authtoken declined");
             reject();
         }
     });
