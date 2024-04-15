@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
@@ -16,6 +17,8 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+//cookie stuff
+app.use(cookieParser());
 
 
 //Memory on the server
@@ -44,8 +47,15 @@ apiRouter.put('/attempt', (req, res) => {
 });
 
 apiRouter.post(`/login`, (req, res) => {
-    let nwObject = loginFunction(req.body);
-    res.send(JSON.stringify("Server ping back to client"));
+    let nwObject;
+    Promise.all([loginFunction(req.body)] ).then(result => {
+        nwObject = result;
+        console.log(result);
+        setAuthCookie(res, nwObject.token);
+        res.send(JSON.stringify("Server ping back to client"));
+    }).catch(error => {
+        res.send("500 server error: " + error);
+    });
 });
 
 
@@ -78,12 +88,28 @@ function updateAndGetNumAttempts(userAttemptObject) {
 }
 
 async function loginFunction(loginObject) {
-    const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
-    let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
-    // console.log(nwObject);
-    return nwObject;
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("Starting await");
+            const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
+            let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
+            resolve(nwObject);
+        } catch {
+            console.log("Log-in Promise declined");
+            reject();
+        }
+    });
 }
 
 function checkCredentialsDatabase() {
 
+}
+
+//Cookie
+function setAuthCookie(res, authToken) {
+    res.cookie('token', authToken, {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
+    });
 }
