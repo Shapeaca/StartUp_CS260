@@ -102,3 +102,7 @@ I added a backend server with endpoints designed to help keep track of score
   * they get called to update the (memory) database on the server
   * they send back the highest score and the number of attempts to the client
   * On Play.html, the client updates the text to display number of attempts and highest score
+
+## Login Service Deliverable
+I added a login and signup with automatic database management by doing:
+* I added login blockers on the client that blocks the Leaderboard and Play tabs if the users are NOT logged in

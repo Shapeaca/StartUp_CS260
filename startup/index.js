@@ -41,6 +41,11 @@ apiRouter.put('/attempt', (req, res) => {
     res.send(JSON.stringify(nwObject));
 });
 
+apiRouter.post(`/login`, (req, res) => {
+    let nwObject = loginFunction(req.body);
+    res.send(JSON.stringify("Server ping back to client"));
+});
+
 
 
 // Return the application's default page if the path is unknown
@@ -70,3 +75,12 @@ function updateAndGetNumAttempts(userAttemptObject) {
     return nwObject;
 }
 
+function loginFunction(loginObject) {
+    let nwObject = {username: loginObject.username, password: loginObject.password};
+    console.log(nwObject);
+    return nwObject;
+}
+
+function checkCredentialsDatabase() {
+
+}

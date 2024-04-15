@@ -17,8 +17,6 @@ function checkLoginDetails() {
         let loginBlockerElement = document.createElement("p");
         loginBlockerElement.setAttribute("id", "playLoginRestrictionText");
         loginBlockerElement.innerHTML = "Please login in order to view leaderboard!";
-
-        // loginBlockerElement.style.fontSize = "30px";
         document.getElementById("tableDiv").appendChild(loginBlockerElement);
     }
 }
