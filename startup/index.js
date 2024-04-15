@@ -2,8 +2,10 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const cookieParser = require('cookie-parser');
-const app = express();
+const { MongoClient } = require('mongodb');
+const config = require('./dbConfig.json');
 
+const app = express();
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
@@ -19,6 +21,15 @@ app.use(`/api`, apiRouter);
 
 //cookie stuff
 app.use(cookieParser());
+
+
+
+//connect to the database cluster
+const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+const client = new MongoClient(url);
+const db = client.db('startup');
+const collectionUser = db.collection('user');
+
 
 
 //Memory on the server
@@ -93,16 +104,13 @@ async function loginFunction(loginObject) {
         try {
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
             let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
+
             resolve(nwObject);
         } catch {
             console.log("Log-in Promise declined");
             reject();
         }
     });
-}
-
-function checkCredentialsDatabase() {
-
 }
 
 //Cookie
@@ -113,3 +121,13 @@ function setAuthCookie(res, authToken) {
         sameSite: 'strict',
     });
 }
+
+
+(async function testConnection() {
+    await client.connect();
+    await db.command({ ping: 1 });
+    console.log("Database connected");
+})().catch((ex) => {
+    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+    process.exit(1);
+});
