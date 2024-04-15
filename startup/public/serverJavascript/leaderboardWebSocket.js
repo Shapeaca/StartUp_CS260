@@ -1,17 +1,44 @@
 const tableID = "elementTable";
 const numOfRowsOfTable = 13; //question should I change this number based on how many entries can fit on the page?
 
-let tableElement = document.getElementById(tableID);
+// let tableElement = null;
 let testVar = {username:"codeUser", time:"12:34", attempts:1234};
+let tableElement;
 
-//Updating Table
+checkLoginDetails();//What gets called to start everything
 
-
-webSocketUpdate(); //What gets called to start everything
-setInterval(webSocketUpdate, 5000);
+function checkLoginDetails() {
+    let testBool = true;
+    if(testBool === true) {
+        tableElement = initializeTable();
+        webSocketUpdate();
+        setInterval(webSocketUpdate, 5000);
+    } else {
+        let loginBlockerElement = document.createElement("p");
+        loginBlockerElement.setAttribute("id", "leaderboardLoginRestrictionText");
+        loginBlockerElement.innerHTML = "Please login in order to view leaderboard!";
+        document.getElementById("tableDiv").appendChild(loginBlockerElement);
+    }
+}
 
 function initializeTable() {
-    //todo add
+    let tableElement = document.createElement("table");
+    tableElement.setAttribute("id", tableID);
+
+    let usernameElement = document.createElement("th");
+    usernameElement.innerHTML = "Username";
+    tableElement.appendChild(usernameElement);
+
+    let timeElement = document.createElement("th");
+    timeElement.innerHTML = "Best Time";
+    tableElement.appendChild(timeElement);
+
+    let attemptsElement = document.createElement("th");
+    attemptsElement.innerHTML = "Num of Attempts";
+    tableElement.appendChild(attemptsElement);
+
+    document.getElementById("tableDiv").appendChild(tableElement);
+    return tableElement;
 }
 
 function webSocketUpdate() {
