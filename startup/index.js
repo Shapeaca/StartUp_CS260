@@ -152,7 +152,7 @@ async function insertUserToDatabase(username, hashPassword, email, curAuthToken)
             resolve();
         } catch (error) {
             console.log("ERROR: Database Promise declined");
-            reject("ERROR: Database User insert Promise declined because: " + error);
+            reject(error);
         }
     });
 }
@@ -165,9 +165,9 @@ async function updateUserAuthToken(username, nwAuthToken) {
             collectionUser.updateOne(query, set);
             console.log("Success");
             resolve();
-        } catch {
-            console.log("ERROR: Database Promise update Authtoken declined");
-            reject();
+        } catch (error){
+            console.log("ERROR: Database Promise update Authtoken declined: " + error);
+            reject(error);
         }
     });
 }
