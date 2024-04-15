@@ -104,7 +104,7 @@ async function loginFunction(loginObject) {
         try {
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
             let nwObject = {username: loginObject.username, password: encryptedPassword, token: uuid.v4()};
-
+            await insertUserToDatabase(nwObject.username, nwObject.password, "TestEmail@gmail.com", nwObject.token);
             resolve(nwObject);
         } catch {
             console.log("Log-in Promise declined");
@@ -123,6 +123,8 @@ function setAuthCookie(res, authToken) {
 }
 
 
+
+//database functions
 (async function testConnection() {
     await client.connect();
     await db.command({ ping: 1 });
@@ -131,3 +133,22 @@ function setAuthCookie(res, authToken) {
     console.log(`Unable to connect to database with ${url} because ${ex.message}`);
     process.exit(1);
 });
+
+async function insertUserToDatabase(username, hashPassword, email, curAuthToken) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            userObject = {
+                username: username,
+                password: hashPassword,
+                email: email,
+                curAuthToken: curAuthToken
+            }
+            await collectionUser.insertOne(userObject);
+            console.log("Insert Successful");
+            resolve();
+        } catch {
+            console.log("ERROR: Database Promise declined");
+            reject();
+        }
+    });
+}
