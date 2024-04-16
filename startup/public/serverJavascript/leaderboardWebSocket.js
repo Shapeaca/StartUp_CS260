@@ -1,3 +1,6 @@
+// import {checkAuthtoken} from "./authtokenFetch.js";
+// const authtokenFetch = require(`./authtokenFetch`);
+
 const tableID = "elementTable";
 const numOfRowsOfTable = 13; //question should I change this number based on how many entries can fit on the page?
 
@@ -9,6 +12,8 @@ checkLoginDetails();//What gets called to start everything
 
 function checkLoginDetails() {
     let testBool = false;
+    // authtokenFetch.checkAuthtoken();
+    // checkAuthtoken();
     if(testBool === true) {
         tableElement = initializeTable();
         webSocketUpdate();

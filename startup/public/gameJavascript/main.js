@@ -1,3 +1,4 @@
+
 //required game variables
 const shipCenterX = 105; //px
 let shipCurY = 210; //px - the top edge - + 30 for center;
@@ -37,7 +38,8 @@ let spacePressed = false;
 checkLoginDetails(); //Where everything gets called
 
 function checkLoginDetails() {
-    let testBool = false; //fixme replace this with an actual login check
+    let testBool = true; //fixme replace this with an actual login check
+    // checkAuthtoken();
     if(testBool === true) {
         initializeGame();
     } else {

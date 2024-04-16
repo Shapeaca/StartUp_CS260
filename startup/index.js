@@ -59,6 +59,7 @@ apiRouter.put('/attempt', (req, res) => {
 
 apiRouter.post(`/login`, (req, res) => {
     // let nwObject;
+    console.log()
     loginFunction(req.body).then(result => {
         // nwObject = result;
         console.log(result);
@@ -69,6 +70,18 @@ apiRouter.post(`/login`, (req, res) => {
         console.log(error);
         res.send("500 server error: " + error);
     });
+});
+
+apiRouter.post(`/signup`, (req, res) => {
+    // console.log(req.body);
+    // let nwObject = req.body;
+    // console.log(nwObject);
+    signupFunction(req.body).then(result => {
+        setAuthCookie(res, result.token);
+        res.send(JSON.stringify("Signup completed"));
+    }).catch(error => {
+        res.send(error);
+    })
 });
 
 
@@ -86,6 +99,7 @@ app.listen(port, () => {
 
 //misc functions
 function addToScoresArray(scoreObject) {
+    // console.log(scoreObject);
     let nwObject = {user: scoreObject.user, score: scoreObject.score}
     if(nwObject.score > highestScore) {
         highestScore = nwObject.score;
@@ -113,6 +127,28 @@ async function loginFunction(loginObject) {
             resolve(nwObject);
         } catch (error) {
             console.log(reject);
+            reject(error);
+        }
+    });
+}
+
+async function signupFunction(signupObject) {
+    return new Promise(async (resolve, reject) => {
+        // console.log(signupObject);
+        try {
+            // const user = await collectionUser.findOne({username: object.username});
+            //todo - Ask chat
+            let nwObject = {
+                username: signupObject.username.toLowerCase(),
+                password: await bcrypt.hash(signupObject.password, 10),
+                email:signupObject.email,
+                token: uuid.v4()
+            };
+            console.log(nwObject);
+            await databaseInsertUser(nwObject.username, nwObject.password, nwObject.email, nwObject.token);
+            resolve(nwObject);
+        } catch (error) {
+            console.log(error);
             reject(error);
         }
     });
@@ -162,15 +198,17 @@ async function databaseCheckCredentialsUser (username, normalPassword) {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await collectionUser.findOne({username: username});
-            console.log(user + " - Found user");
+            let isAuthenticated = false;
             if((user != null) && await bcrypt.compare(normalPassword, user.password)) {
                 //userAuthenticated
+                isAuthenticated = true;
                 console.log(`User: ${username} authenticated`);
             } else {
                 //invalid password
+                isAuthenticated = false;
                 console.log(`User: ${username} rejected`);
             }
-            resolve();
+            resolve(isAuthenticated);
         } catch (error) {
             console.log("ERROR: Database check credentials promise declined because: " + error);
             reject(error);

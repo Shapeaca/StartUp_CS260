@@ -20,7 +20,6 @@ function login() {
 
 async function httpLoginPost(username, password) {
     return new Promise(async (resolve, reject) => {
-
         let objectToSend = ({username: username, password: password});
 
         try {
