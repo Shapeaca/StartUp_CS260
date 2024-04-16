@@ -106,8 +106,10 @@ async function loginFunction(loginObject) {
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
             let lowerUsername = loginObject.username.toLowerCase();
             let nwObject = {username: lowerUsername, password: encryptedPassword, token: uuid.v4()};
-            await insertUserToDatabase(nwObject.username, nwObject.password, "TestEmail@gmail.com", nwObject.token);
-            await updateUserAuthToken(nwObject.username, "FakeAuthToken");
+            await databaseInsertUser(nwObject.username, nwObject.password, "TestEmail@gmail.com", nwObject.token);
+            // await databaseUpdateUserAuthToken(nwObject.username, "FakeAuthToken");
+            console.log(encryptedPassword);
+            await databaseCheckCredentialsUser(lowerUsername, loginObject.password);
             resolve(nwObject);
         } catch (error) {
             console.log(reject);
@@ -137,7 +139,7 @@ function setAuthCookie(res, authToken) {
     process.exit(1);
 });
 
-async function insertUserToDatabase(username, hashPassword, email, curAuthToken) {
+async function databaseInsertUser(username, hashPassword, email, curAuthToken) {
     return new Promise(async (resolve, reject) => {
         try {
             userObject = {
@@ -148,16 +150,35 @@ async function insertUserToDatabase(username, hashPassword, email, curAuthToken)
             }
             await collectionUser.createIndex({ username: 1 }, { unique: true });
             await collectionUser.insertOne(userObject);
-            console.log("Insert Successful");
             resolve();
         } catch (error) {
-            console.log("ERROR: Database Promise declined");
+            console.log("ERROR: Database insert user promise declined");
             reject(error);
         }
     });
 }
 
-async function updateUserAuthToken(username, nwAuthToken) {
+async function databaseCheckCredentialsUser (username, normalPassword) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await collectionUser.findOne({username: username});
+            console.log(user + " - Found user");
+            if((user != null) && await bcrypt.compare(normalPassword, user.password)) {
+                //userAuthenticated
+                console.log(`User: ${username} authenticated`);
+            } else {
+                //invalid password
+                console.log(`User: ${username} rejected`);
+            }
+            resolve();
+        } catch (error) {
+            console.log("ERROR: Database check credentials promise declined because: " + error);
+            reject(error);
+        }
+    });
+}
+
+async function databaseUpdateUserAuthToken(username, nwAuthToken) {
     return new Promise(async (resolve, reject) => {
         try {
             const query = {username: `${username}`};
