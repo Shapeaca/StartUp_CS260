@@ -18,39 +18,16 @@ async function signUp() {
             if(response.status === 200) {
                 console.log(response.status + ":" + responseObject.msg);
                 //Now Update Account Display on webpage
-                const updateUsername = responseObject.username;
-                sessionStorage.setItem("username", updateUsername)
-                document.getElementById("accountDisplay").innerHTML = `User: ${updateUsername}`;
-                //todo here remove the signup values
+                sessionStorage.setItem("username", responseObject.username)
+                document.getElementById("accountDisplay").innerHTML = `User: ${responseObject.username}`;
+                //todo here remove the signup values from the input boxes
             } else {
                 console.log(response.status + ":" + responseObject.msg);
             }
 
-        } catch (error){
+        } catch (error) {
             console.log(error);
         }
 
     }
 }
-
-// async function httpSignupPost(username, password, email) {
-//     return new Promise(async (resolve, reject) => {
-//         let objectToSend = ({username: username, password: password, email: email});
-//         console.log(objectToSend);
-//         try {
-//             const response = await fetch('/api/signup', {
-//                 method: 'POST',
-//                 headers: {'content-type': 'application/json'},
-//                 body: JSON.stringify(objectToSend),
-//             });
-//
-//             const responseStr = await response.json();
-//             console.log(responseStr);
-//
-//             resolve();
-//         } catch (error){
-//             console.log("HTTP Post /api/signup Failed");
-//             reject(error);
-//         }
-//     });
-// }

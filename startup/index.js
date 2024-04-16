@@ -30,7 +30,14 @@ const client = new MongoClient(url);
 const db = client.db('startup');
 const collectionUser = db.collection('user');
 
-
+(async function testConnection() {
+    await client.connect();
+    await db.command({ ping: 1 });
+    console.log("Database connected");
+})().catch((ex) => {
+    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+    process.exit(1);
+});
 
 //Memory on the server
 let numAttemptsMemory = 0;
@@ -58,26 +65,31 @@ apiRouter.put('/attempt', (req, res) => {
 });
 
 apiRouter.post(`/login`, (req, res) => {
-    // let nwObject;
-    console.log()
-    loginFunction(req.body).then(result => {
-        // nwObject = result;
-        console.log(result);
-        console.log(result.token + " = the auth cookie");
-        setAuthCookie(res, result.token);
-        res.send(JSON.stringify("Server ping back to client"));
+    const reqObject = req.body;
+    console.log(reqObject);
+
+    databaseCheckCredentialsUser(reqObject.username, reqObject.password).then(response => { //response = new authtoken
+
     }).catch(error => {
-        console.log(error);
-        res.send("500 server error: " + error);
-    });
+        res.status(401).send(JSON.stringify({msg: error}));
+    })
+    console.log("user authenticated");
+    databaseUpdateUserAuthToken(reqObject.username, reqObject.password).then(response => { //response = new authtoken
+        console.log(response.authtoken);
+        setAuthCookie(res, response.authtoken);
+        res.status(200).send(JSON.stringify({msg: "Login success", username: reqObject.username}));
+    }).catch(error => {
+        res.status(500).send(JSON.stringify({msg: error}));
+    })
+
 });
 
 apiRouter.post(`/signup`, (req, res) => {
     const reqObject = req.body;
-    console.log(reqObject);
+    // console.log(reqObject);
     databaseInsertUser(reqObject.username, reqObject.password, reqObject.email).then(response => { //response = new authtoken
         // console.log("Signup works: " + response.authtoken);
-        console.log(response);
+        // console.log(response);
         setAuthCookie(res, response.authtoken);
         res.status(200).send(JSON.stringify({msg: "Signup success", username: reqObject.username}));
     }).catch(error => {
@@ -133,27 +145,6 @@ async function loginFunction(loginObject) { //todo fix this function - I need to
     });
 }
 
-async function signupFunction(signupObject) {
-    return new Promise(async (resolve, reject) => {
-        // console.log(signupObject);
-        try {
-            //todo - Ask chat
-            // let nwObject = {
-            //     username: signupObject.username.toLowerCase(),
-            //     password: await bcrypt.hash(signupObject.password, 10),
-            //     email:signupObject.email,
-            //     token: uuid.v4()
-            // };
-            console.log(nwObject);
-            await databaseInsertUser(nwObject.username, nwObject.password, nwObject.email, nwObject.token);
-            resolve(nwObject);
-        } catch (error) {
-            console.log(error);
-            reject(error);
-        }
-    });
-}
-
 //Cookie
 function setAuthCookie(res, authToken) {
     res.cookie('token', authToken, {
@@ -166,15 +157,6 @@ function setAuthCookie(res, authToken) {
 
 
 //database functions
-(async function testConnection() {
-    await client.connect();
-    await db.command({ ping: 1 });
-    console.log("Database connected");
-})().catch((ex) => {
-    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
-    process.exit(1);
-});
-
 async function databaseInsertUser(username, normalPassword, email, curAuthToken) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -193,38 +175,37 @@ async function databaseInsertUser(username, normalPassword, email, curAuthToken)
     });
 }
 
-async function databaseCheckCredentialsUser (username, normalPassword) {
+async function databaseCheckCredentialsUser (username, normalPassword) { // fixme does not validate successfully
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await collectionUser.findOne({username: username});
-            let isAuthenticated = false;
+            const lowerUsername = username.toLowerCase();
+
+            const user = await collectionUser.findOne({username: lowerUsername});
             if((user != null) && await bcrypt.compare(normalPassword, user.password)) {
                 //userAuthenticated
-                isAuthenticated = true;
                 console.log(`User: ${username} authenticated`);
+                resolve();
             } else {
                 //invalid password
-                isAuthenticated = false;
-                console.log(`User: ${username} rejected`);
+                reject("Unauthorized");
             }
-            resolve(isAuthenticated);
         } catch (error) {
-            console.log("ERROR: Database check credentials promise declined because: " + error);
+            console.log(error);
             reject(error);
         }
     });
 }
 
-async function databaseUpdateUserAuthToken(username, nwAuthToken) {
+async function databaseUpdateUserAuthToken(username) { //fixme this breaks somewhere in here
     return new Promise(async (resolve, reject) => {
         try {
+            const nwAuthtoken = uuid.v4();
             const query = {username: `${username}`};
-            const set = {$set: {authtoken: nwAuthToken}};
+            const set = {$set: {authtoken: nwAuthtoken}};
             collectionUser.updateOne(query, set);
-            console.log("Success");
             resolve();
         } catch (error){
-            console.log("ERROR: Database Promise update Authtoken declined: " + error);
+            console.log(error);
             reject(error);
         }
     });
