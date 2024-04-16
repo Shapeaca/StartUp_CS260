@@ -74,14 +74,14 @@ apiRouter.post(`/login`, (req, res) => {
 
 apiRouter.post(`/signup`, (req, res) => {
     const reqObject = req.body;
-    // console.log(reqObject);
+    console.log(reqObject);
     databaseInsertUser(reqObject.username, reqObject.password, reqObject.email).then(response => { //response = new authtoken
         // console.log("Signup works: " + response.authtoken);
         console.log(response);
         setAuthCookie(res, response.authtoken);
-        res.status(200).send(JSON.stringify("Signup success"));
+        res.status(200).send(JSON.stringify({msg: "Signup success", username: reqObject.username}));
     }).catch(error => {
-        res.status(400).send(JSON.stringify(error));
+        res.status(400).send(JSON.stringify({msg: error}));
     })
 });
 
