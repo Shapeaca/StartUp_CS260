@@ -73,14 +73,15 @@ apiRouter.post(`/login`, (req, res) => {
 });
 
 apiRouter.post(`/signup`, (req, res) => {
-    // console.log(req.body);
-    // let nwObject = req.body;
-    // console.log(nwObject);
-    signupFunction(req.body).then(result => {
-        setAuthCookie(res, result.token);
-        res.send(JSON.stringify("Signup completed"));
+    const reqObject = req.body;
+    // console.log(reqObject);
+    databaseInsertUser(reqObject.username, reqObject.password, reqObject.email).then(response => { //response = new authtoken
+        // console.log("Signup works: " + response.authtoken);
+        console.log(response);
+        setAuthCookie(res, response.authtoken);
+        res.status(200).send(JSON.stringify("Signup success"));
     }).catch(error => {
-        res.send(error);
+        res.status(400).send(JSON.stringify(error));
     })
 });
 
@@ -114,16 +115,16 @@ function updateAndGetNumAttempts(userAttemptObject) {
     return nwObject;
 }
 
-async function loginFunction(loginObject) {
+async function loginFunction(loginObject) { //todo fix this function - I need to do it
     return new Promise(async (resolve, reject) => {
         try {
             const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
             let lowerUsername = loginObject.username.toLowerCase();
             let nwObject = {username: lowerUsername, password: encryptedPassword, token: uuid.v4()};
-            await databaseInsertUser(nwObject.username, nwObject.password, "TestEmail@gmail.com", nwObject.token);
             // await databaseUpdateUserAuthToken(nwObject.username, "FakeAuthToken");
             console.log(encryptedPassword);
             await databaseCheckCredentialsUser(lowerUsername, loginObject.password);
+            await databaseUpdateUserAuthToken(lowerUsername, nwObject.token);
             resolve(nwObject);
         } catch (error) {
             console.log(reject);
@@ -136,14 +137,13 @@ async function signupFunction(signupObject) {
     return new Promise(async (resolve, reject) => {
         // console.log(signupObject);
         try {
-            // const user = await collectionUser.findOne({username: object.username});
             //todo - Ask chat
-            let nwObject = {
-                username: signupObject.username.toLowerCase(),
-                password: await bcrypt.hash(signupObject.password, 10),
-                email:signupObject.email,
-                token: uuid.v4()
-            };
+            // let nwObject = {
+            //     username: signupObject.username.toLowerCase(),
+            //     password: await bcrypt.hash(signupObject.password, 10),
+            //     email:signupObject.email,
+            //     token: uuid.v4()
+            // };
             console.log(nwObject);
             await databaseInsertUser(nwObject.username, nwObject.password, nwObject.email, nwObject.token);
             resolve(nwObject);
@@ -175,20 +175,19 @@ function setAuthCookie(res, authToken) {
     process.exit(1);
 });
 
-async function databaseInsertUser(username, hashPassword, email, curAuthToken) {
+async function databaseInsertUser(username, normalPassword, email, curAuthToken) {
     return new Promise(async (resolve, reject) => {
         try {
-            userObject = {
-                username: username,
-                password: hashPassword,
-                email: email,
-                authtoken: curAuthToken
-            }
+            const lowerUsername = username.toLowerCase();
+            const encryptedPassword = await bcrypt.hash(normalPassword, 10);
+            const nwAuthtoken = uuid.v4();
+
             await collectionUser.createIndex({ username: 1 }, { unique: true });
-            await collectionUser.insertOne(userObject);
-            resolve();
+            await collectionUser.insertOne( {username: lowerUsername, password: encryptedPassword, email: email, authtoken: nwAuthtoken} );
+
+            resolve({authtoken: nwAuthtoken});
         } catch (error) {
-            console.log("ERROR: Database insert user promise declined");
+            console.log(error);
             reject(error);
         }
     });

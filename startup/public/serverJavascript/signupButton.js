@@ -33,9 +33,9 @@ async function httpSignupPost(username, password, email) {
             console.log(responseStr);
 
             resolve();
-        } catch {
+        } catch (error){
             console.log("HTTP Post /api/signup Failed");
-            reject("HTTP Post /api/signup Failed");
+            reject(error);
         }
     });
 }
