@@ -69,13 +69,16 @@ apiRouter.post(`/login`, (req, res) => {
     console.log(reqObject);
 
     databaseCheckCredentialsUser(reqObject.username, reqObject.password).then(response => { //response = new authtoken
-
+        console.log("After Checking Credenmtials");
     }).catch(error => {
         res.status(401).send(JSON.stringify({msg: error}));
     })
+
     console.log("user authenticated");
     databaseUpdateUserAuthToken(reqObject.username, reqObject.password).then(response => { //response = new authtoken
-        console.log(response.authtoken);
+        // console.log(response.authtoken);
+        console.log("After updateDatabaseUser");
+        console.log(response);
         setAuthCookie(res, response.authtoken);
         res.status(200).send(JSON.stringify({msg: "Login success", username: reqObject.username}));
     }).catch(error => {
@@ -127,24 +130,6 @@ function updateAndGetNumAttempts(userAttemptObject) {
     return nwObject;
 }
 
-async function loginFunction(loginObject) { //todo fix this function - I need to do it
-    return new Promise(async (resolve, reject) => {
-        try {
-            const encryptedPassword = await bcrypt.hash(loginObject.password, 10);
-            let lowerUsername = loginObject.username.toLowerCase();
-            let nwObject = {username: lowerUsername, password: encryptedPassword, token: uuid.v4()};
-            // await databaseUpdateUserAuthToken(nwObject.username, "FakeAuthToken");
-            console.log(encryptedPassword);
-            await databaseCheckCredentialsUser(lowerUsername, loginObject.password);
-            await databaseUpdateUserAuthToken(lowerUsername, nwObject.token);
-            resolve(nwObject);
-        } catch (error) {
-            console.log(reject);
-            reject(error);
-        }
-    });
-}
-
 //Cookie
 function setAuthCookie(res, authToken) {
     res.cookie('token', authToken, {
@@ -181,6 +166,7 @@ async function databaseCheckCredentialsUser (username, normalPassword) { // fixm
             const lowerUsername = username.toLowerCase();
 
             const user = await collectionUser.findOne({username: lowerUsername});
+            console.log(user);
             if((user != null) && await bcrypt.compare(normalPassword, user.password)) {
                 //userAuthenticated
                 console.log(`User: ${username} authenticated`);
@@ -196,14 +182,14 @@ async function databaseCheckCredentialsUser (username, normalPassword) { // fixm
     });
 }
 
-async function databaseUpdateUserAuthToken(username) { //fixme this breaks somewhere in here
+async function databaseUpdateUserAuthToken(username) {
     return new Promise(async (resolve, reject) => {
         try {
             const nwAuthtoken = uuid.v4();
             const query = {username: `${username}`};
             const set = {$set: {authtoken: nwAuthtoken}};
-            collectionUser.updateOne(query, set);
-            resolve();
+            await collectionUser.updateOne(query, set);
+            resolve({authtoken: nwAuthtoken});
         } catch (error){
             console.log(error);
             reject(error);
