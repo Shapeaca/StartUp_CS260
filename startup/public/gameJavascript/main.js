@@ -39,7 +39,7 @@ checkLoginDetails(); //Where everything gets called
 
 function checkLoginDetails() {
     let testBool = true; //fixme replace this with an actual login check
-    //todo do I have to make a fetch request each time? Or can I just check if there is a username and an auth cookie
+
     //Fetch
     if(testBool === true) {
         initializeGame();

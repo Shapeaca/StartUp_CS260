@@ -106,3 +106,12 @@ I added a backend server with endpoints designed to help keep track of score
 ## Login Service Deliverable
 I added a login and signup with automatic database management by doing:
 * I added login blockers on the client that blocks the Leaderboard and Play tabs if the users are NOT logged in
+* * They are currently not operational, but can be activated by changing a bool called: testBool = false; Main line 41, or LeaderboardWebSocket line 14
+* My active login blocker is that user's can't send score to the database without being logged in
+* * My server checks if my client has an authtoken cookie from the sign in action
+* My user's can signup and login from two different endpoints (login and signup)
+* * My user's credentials are stored once they sign up, and every login the credentials are checked
+* My index.js accesses my mongodb database as needed
+* * To add users, store and update authtokens, and securely store passwords
+* I generate a uuid for authtokens every sign in
+* I use bcrypt to securely store passwords in a hash in the database
