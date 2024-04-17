@@ -11,9 +11,10 @@ let tableElement;
 checkLoginDetails();//What gets called to start everything
 
 function checkLoginDetails() {
-    let testBool = false;
+    let testBool = true;
     // authtokenFetch.checkAuthtoken();
     // checkAuthtoken();
+
     if(testBool === true) {
         tableElement = initializeTable();
         webSocketUpdate();

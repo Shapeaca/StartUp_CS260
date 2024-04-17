@@ -8,19 +8,23 @@ const config = require('./dbConfig.json');
 const app = express();
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const authCookieName = "token";
+
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
 
+app.use(cookieParser());
+
 // Serve up the front-end static content hosting
 app.use(express.static('public'));
+
+// Trust headers that are forwarded from the proxy so we can determine IP addresses
+app.set('trust proxy', true);
 
 // Router for service endpoints
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
-
-//cookie stuff
-app.use(cookieParser());
 
 
 
@@ -51,6 +55,59 @@ const max = data.reduce(function(prev, current) { //example for finding highest 
 }) //returns object*/
 
 
+apiRouter.post(`/login`, (req, res) => { //fixme login works except it doesn't send right error messages
+    const reqObject = req.body;
+    // console.log(reqObject);
+
+    databaseCheckCredentialsUser(reqObject.username, reqObject.password).then(response => { //response = new authtoken
+        databaseUpdateUserAuthToken(reqObject.username, reqObject.password).then(response => { //response = new authtoken
+            // console.log(response.authtoken);
+            // console.log(response);
+            setAuthCookie(res, response.authtoken);
+            console.log(`${reqObject.username} is authenticated`);
+            res.status(200).send(JSON.stringify({msg: "Login success", username: reqObject.username}));
+        }).catch(error => {
+            res.status(500).send(JSON.stringify({msg: error}));
+        })
+
+    }).catch(error => {
+        res.status(401).send(JSON.stringify({msg: error}));
+    })
+
+});
+
+apiRouter.post(`/signup`, (req, res) => {
+    const reqObject = req.body;
+    // console.log(reqObject);
+    databaseInsertUser(reqObject.username, reqObject.password, reqObject.email).then(response => { //response = new authtoken
+        // console.log("Signup works: " + response.authtoken);
+        // console.log(response);
+        setAuthCookie(res, response.authtoken);
+        console.log(`${reqObject.username} is authenticated`);
+        res.status(200).send(JSON.stringify({msg: "Signup success", username: reqObject.username}));
+    }).catch(error => {
+        res.status(400).send(JSON.stringify({msg: error}));
+    })
+});
+
+//Secure API router
+const secureApiRouter = express.Router();
+apiRouter.use(secureApiRouter);
+
+secureApiRouter.use(async (req, res, next) => {
+    // console.log(req.cookies);
+    const authToken = req.cookies[authCookieName];
+    //fixme my server crashes if It can't find An authtoken cookie
+    //fixme the endpoint rejects if it finds an auth token cookie, but is not able to
+    // console.log(authToken); //fixme it doesn't make it here
+    const user = await getUserByToken(authToken);
+    console.log(user);
+    if (user) {
+        next();
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
 
 //score endpoint
 apiRouter.post('/score', (req, res) => {
@@ -63,43 +120,6 @@ apiRouter.put('/attempt', (req, res) => {
     let nwObject = updateAndGetNumAttempts(req.body);
     res.send(JSON.stringify(nwObject));
 });
-
-apiRouter.post(`/login`, (req, res) => {
-    const reqObject = req.body;
-    console.log(reqObject);
-
-    databaseCheckCredentialsUser(reqObject.username, reqObject.password).then(response => { //response = new authtoken
-        console.log("After Checking Credenmtials");
-    }).catch(error => {
-        res.status(401).send(JSON.stringify({msg: error}));
-    })
-
-    console.log("user authenticated");
-    databaseUpdateUserAuthToken(reqObject.username, reqObject.password).then(response => { //response = new authtoken
-        // console.log(response.authtoken);
-        console.log("After updateDatabaseUser");
-        console.log(response);
-        setAuthCookie(res, response.authtoken);
-        res.status(200).send(JSON.stringify({msg: "Login success", username: reqObject.username}));
-    }).catch(error => {
-        res.status(500).send(JSON.stringify({msg: error}));
-    })
-
-});
-
-apiRouter.post(`/signup`, (req, res) => {
-    const reqObject = req.body;
-    // console.log(reqObject);
-    databaseInsertUser(reqObject.username, reqObject.password, reqObject.email).then(response => { //response = new authtoken
-        // console.log("Signup works: " + response.authtoken);
-        // console.log(response);
-        setAuthCookie(res, response.authtoken);
-        res.status(200).send(JSON.stringify({msg: "Signup success", username: reqObject.username}));
-    }).catch(error => {
-        res.status(400).send(JSON.stringify({msg: error}));
-    })
-});
-
 
 
 // Return the application's default page if the path is unknown
@@ -132,7 +152,7 @@ function updateAndGetNumAttempts(userAttemptObject) {
 
 //Cookie
 function setAuthCookie(res, authToken) {
-    res.cookie('token', authToken, {
+    res.cookie(authCookieName, authToken, {
         secure: true,
         httpOnly: true,
         sameSite: 'strict',
@@ -166,18 +186,19 @@ async function databaseCheckCredentialsUser (username, normalPassword) { // fixm
             const lowerUsername = username.toLowerCase();
 
             const user = await collectionUser.findOne({username: lowerUsername});
-            console.log(user);
+            // console.log(user);
+            // console.log(await bcrypt.hash(normalPassword, 10));
             if((user != null) && await bcrypt.compare(normalPassword, user.password)) {
                 //userAuthenticated
-                console.log(`User: ${username} authenticated`);
-                resolve();
+                resolve({msg: "Success", username: lowerUsername});
             } else {
                 //invalid password
-                reject("Unauthorized");
+                console.log("Invalid Password")
+                reject({msg: "Unauthorized"});
             }
         } catch (error) {
             console.log(error);
-            reject(error);
+            reject({msg: error});
         }
     });
 }
@@ -195,4 +216,9 @@ async function databaseUpdateUserAuthToken(username) {
             reject(error);
         }
     });
+}
+
+//Database Access
+function getUserByToken(token) {
+    return collectionUser.findOne({ authtoken: token });
 }

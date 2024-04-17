@@ -18,7 +18,7 @@ async function signUp() {
             if(response.status === 200) {
                 console.log(response.status + ":" + responseObject.msg);
                 //Now Update Account Display on webpage
-                sessionStorage.setItem("username", responseObject.username)
+                localStorage.setItem("username", responseObject.username)
                 document.getElementById("accountDisplay").innerHTML = `User: ${responseObject.username}`;
                 //todo here remove the signup values from the input boxes
             } else {

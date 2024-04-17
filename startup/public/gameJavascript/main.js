@@ -39,7 +39,8 @@ checkLoginDetails(); //Where everything gets called
 
 function checkLoginDetails() {
     let testBool = true; //fixme replace this with an actual login check
-    // checkAuthtoken();
+    //todo do I have to make a fetch request each time? Or can I just check if there is a username and an auth cookie
+    //Fetch
     if(testBool === true) {
         initializeGame();
     } else {
@@ -270,13 +271,19 @@ function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
         startTime = Date.now();
 
-        Promise.all([ httpScorePost("shapeacaIsCool", timerFinal),  httpAttemptPut("shapeacaIsCool") ]).then((responses) => {
+        httpScorePost("shapeacaIsCool", timerFinal).then((responses) => {
 
-            document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses[0])}&nbsp&nbsp&nbsp&nbsp Number of Attempts: ${responses[1]}`;
+            document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses)}&nbsp&nbsp&nbsp&nbsp Number of Attempts: `;
 
-        }); //todo add a catch statement
+        });
 
-    }
+        // Promise.all([ httpScorePost("shapeacaIsCool", timerFinal)/*,  httpAttemptPut("shapeacaIsCool") */]).then((responses) => {
+        //
+        //     document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses[0])}&nbsp&nbsp&nbsp&nbsp Number of Attempts: `;
+        //
+        // }); //todo add a catch statement
+
+    }///*/!*${responses[1]}*!/*/
 }
 
 //https functions
@@ -293,10 +300,11 @@ async function httpScorePost(username, scoreMilliseconds) {
 
             const responseStr = await response.json();
             let highScoreNum = responseStr.highScore;
+            // console.log(response.status + ":" + responseObject.msg);
             resolve(highScoreNum);
-        } catch {
-            console.log("HTTP Post /api/score Failed");
-            reject("HTTP Post /api/score Failed");
+        } catch (error) {
+            console.log(error);
+            reject(error)
         }
     });
 }
@@ -315,9 +323,9 @@ async function httpAttemptPut(username) {
             const responseStr = await response.json();
             let attemptNumStr = responseStr.attempts;
             resolve(attemptNumStr.toString());
-        } catch {
-            console.log("HTTP Put /api/attempt Failed");
-            reject("HTTP Put /api/attempt Failed");
+        } catch (error) {
+            console.log(error);
+            reject();
         }
     });
 }
