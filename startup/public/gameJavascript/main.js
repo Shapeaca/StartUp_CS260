@@ -271,17 +271,17 @@ function sendResetFinalScore(timerFinal) {
     if(timerFinal > 500) {
         startTime = Date.now();
 
-        httpScorePost("shapeacaIsCool", timerFinal).then((responses) => {
+        // httpScorePost("shapeacaIsCool", timerFinal).then((responses) => {
+        //
+        //     document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses)}&nbsp&nbsp&nbsp&nbsp Number of Attempts: `;
+        //
+        // });
 
-            document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses)}&nbsp&nbsp&nbsp&nbsp Number of Attempts: `;
+        Promise.all([ httpScorePost("shapeacaIsCool", timerFinal),  httpAttemptPut("shapeacaIsCool") ]).then((responses) => {
+
+            document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses[0])}&nbsp&nbsp&nbsp&nbsp Number of Attempts: ${responses[1]}`;
 
         });
-
-        // Promise.all([ httpScorePost("shapeacaIsCool", timerFinal)/*,  httpAttemptPut("shapeacaIsCool") */]).then((responses) => {
-        //
-        //     document.getElementById("lastScoreDisplay").innerHTML = `High Score: ${createTimeString(responses[0])}&nbsp&nbsp&nbsp&nbsp Number of Attempts: `;
-        //
-        // }); //todo add a catch statement
 
     }///*/!*${responses[1]}*!/*/
 }

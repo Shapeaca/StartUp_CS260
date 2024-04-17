@@ -95,13 +95,8 @@ const secureApiRouter = express.Router();
 apiRouter.use(secureApiRouter);
 
 secureApiRouter.use(async (req, res, next) => {
-    // console.log(req.cookies);
     const authToken = req.cookies[authCookieName];
-    //fixme my server crashes if It can't find An authtoken cookie
-    //fixme the endpoint rejects if it finds an auth token cookie, but is not able to
-    // console.log(authToken); //fixme it doesn't make it here
     const user = await getUserByToken(authToken);
-    console.log(user);
     if (user) {
         next();
     } else {
